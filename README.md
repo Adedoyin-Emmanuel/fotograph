@@ -5,12 +5,12 @@ An Open Source Cross Platform Desktop Application For Image Manipulation
 ### Table Of Content
 
 - [FotoGraph](#fotograph)
-  - [Table Of Content](#table-of-content)
-    - [Introduction](#introduction)
-    - [Please Note](#please-note)
-    - [Images](#images)
-    - [Technologies](#technologies)
-    - [Author](#author)
+    - [Table Of Content](#table-of-content)
+      - [Introduction](#introduction)
+      - [Please Note](#please-note)
+      - [Images](#images)
+      - [Technologies](#technologies)
+      - [Author](#author)
 
 #### Introduction
 
@@ -40,14 +40,12 @@ Here is what the final product would look like :)
 
 #### Technologies
 
-Below are the technologies I used;
+Below are the technologies I used
 
-- **React**
+- **Electron-React**
 - **TypeScript**
 - **React-Bootstrap**
-- **Electron-React**
-- **Electron**
-- **NodeTS**
+- **NodeJS**
 
 #### Author
 
