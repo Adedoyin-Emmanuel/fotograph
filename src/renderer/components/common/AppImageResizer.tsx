@@ -3,21 +3,40 @@ import { Form, Button } from 'react-bootstrap';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faRotateRight, faRotateLeft } from '@fortawesome/free-solid-svg-icons';
 import DemoImage from './../../../../assets/Emmanuel.png';
-import ReactCrop, { type Crop } from 'react-image-crop';
+import ReactCrop, {
+  type Crop,
+  type PixelCrop,
+  type PercentCrop,
+} from 'react-image-crop';
 
 interface AppImageResizerProps {}
 
 const AppImageResizer: React.FC = (): JSX.Element => {
   const [crop, setCrop] = useState<Crop | any>();
   const imgRef = useRef<any>(null);
-  const handleCropComplete = (
-    croppedArea: number,
-    croppedAreaPixels: number
-  ) => {
-    console.log(croppedArea, croppedAreaPixels);
+  const [buttonClicked, setButtonClicked] = useState<boolean>(false);
+
+  const handleClick = () => {
+    handleCropComplete();
+  };
+
+  const handleCropComplete = async () => {
     const canvas = getCroppedCanvas();
-    const croppedFile = canvasToFile(canvas, 'cropped-image.png');
-    // Perform actions with the cropped file
+    const croppedFile = await canvasToFile(canvas, 'cropped-image.png');
+
+    // Cast the croppedFile to Blob type
+    const blob = croppedFile as Blob;
+
+    // Create a temporary anchor element
+    const anchor = document.createElement('a');
+    anchor.href = window.URL.createObjectURL(blob);
+    anchor.download = 'cropped-image.png';
+
+    // Programmatically click the anchor element to initiate the download
+    anchor.click();
+
+    // Clean up the temporary anchor element
+    window.URL.revokeObjectURL(anchor.href);
   };
 
   const getCroppedCanvas = () => {
@@ -59,16 +78,24 @@ const AppImageResizer: React.FC = (): JSX.Element => {
     });
   };
 
-
-    const saveCroppedImage = (file:File) => {
-      const filePath = '/path/to/save/file.png';
-
+  const saveCroppedImage = (file: File, fileName: string) => {
+    const filePath = '/path/to/save/file.png';
+    const reader = new FileReader();
+    reader.onload = (event: any) => {
+      const fileData = event.target.result;
+      const values = {
+        files: fileData,
+        fileName: fileName,
+      };
       window.electron.ipcRenderer.sendMessage('save-file', {
-        file,
-        filePath,
+        values,
       });
+      reader.readAsArrayBuffer(file);
+    };
 
-      window.electron.ipcRenderer.once('save-file-response', (event, response:any) => {
+    window.electron.ipcRenderer.once(
+      'save-file-response',
+      (event, response: any) => {
         if (response.success) {
           // File saved successfully
           console.log('File saved:', response.filePath);
@@ -76,8 +103,9 @@ const AppImageResizer: React.FC = (): JSX.Element => {
           // Error saving file
           console.error('Error saving file:', response.error);
         }
-      });
-    };
+      }
+    );
+  };
   return (
     <React.Fragment>
       <section className="app-image-resizer w-100 row ">
@@ -166,7 +194,10 @@ const AppImageResizer: React.FC = (): JSX.Element => {
               </Form.Group>
 
               <section className="app-image-resizer-action-buttons d-flex align-items-center justify-content-start my-4">
-                <Button className="text-capitalize brand-small-text-2 btn-lg brand-button">
+                <Button
+                  className="text-capitalize brand-small-text-2 btn-lg brand-button"
+                  onClick={handleClick}
+                >
                   save changes
                 </Button>
               </section>
@@ -176,7 +207,7 @@ const AppImageResizer: React.FC = (): JSX.Element => {
 
         <section className="app-image-resizer-image col-7 d-flex align-items-center justify-content-center photo-editor rounded-3 mx-5">
           <ReactCrop crop={crop} onChange={(c) => setCrop(c)}>
-            <img src={DemoImage} className="img-fluid" />
+            <img src={DemoImage} className="img-fluid" ref={imgRef} />
           </ReactCrop>
         </section>
         <section className="col-1"></section>
@@ -188,3 +219,4 @@ const AppImageResizer: React.FC = (): JSX.Element => {
 };
 
 export default AppImageResizer;
+// onComplete?: (crop: PixelCrop, percentageCrop: PercentCrop) => void;
