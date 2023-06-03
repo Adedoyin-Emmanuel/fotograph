@@ -1,4 +1,4 @@
-export const UNSPLASH_API_KEY = 'Ytr6xLjnSn0TkyZ9nooZc7HoyudKvEc5OSukQoKxnKo';
+export const UNSPLASH_API_KEY = 'g7d7KRxOl8fE437qOTxlsf9XYcd3ApDgtZlLs5XMa3Y';
 //testing API key g7d7KRxOl8fE437qOTxlsf9XYcd3ApDgtZlLs5XMa3Y
 
 export const PEXEL_API_KEY =
