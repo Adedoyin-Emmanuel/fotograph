@@ -1,0 +1,231 @@
+@import url('../renderer/includes/styles/customStyles.css');
+
+.sidenav-container {
+  position: fixed !important;
+  top: 0;
+  bottom: 0;
+  overflow: hidden !important;
+}
+.full-height {
+  overflow-x: hidden !important;
+}
+
+.icons-container > .icons {
+  cursor: pointer !important;
+}
+
+.tooltip .tooltip-arrow::before {
+  border-right-color: var(--brand-tooltip-color) !important;
+}
+.tooltip .tooltip-arrow::after {
+  border-right-color: var(--brand-tooltip-color) !important;
+}
+.tooltip .tooltip-inner {
+  background-color: var(--brand-tooltip-color) !important;
+}
+
+.pagination-icon {
+  cursor: pointer !important;
+  border-radius: 50%;
+  padding: 15px;
+  transition: 0.3s;
+}
+
+.pagination-icon:hover,
+.pagination-icon:focus,
+.pagination-icon:active {
+  background: var(--brand-tooltip-color) !important;
+  color: var(--brand-white-color) !important;
+}
+
+body {
+  overflow-x: hidden !important;
+}
+
+.app-content-container {
+  height: 100% !important;
+  width: 90vw !important;
+}
+
+.app-content-scroll {
+  overflow-y: scroll !important;
+  width: 100vw !important;
+}
+
+.app-scroll-horizontal {
+  overflow-x: scroll !important;
+}
+
+.app-scroll-not-horizontal {
+  overflow-x: hidden !important;
+}
+
+.app-content-flex {
+  align-items: start !important;
+  justify-content: start !important;
+}
+
+.small-icons {
+  display: inline-block !important;
+  width: 2rem !important;
+  height: 2rem !important;
+  border-radius: 50%;
+  text-align: center !important;
+}
+
+.instagram-logo {
+  background: linear-gradient(to right, #833ab4, #fd1d1d) !important;
+  color: white;
+  width: 2rem !important;
+  height: 2rem !important;
+  border-radius: 5px !important;
+}
+
+.whatsapp-logo {
+  background: #25d366 !important;
+  color: white !important;
+}
+
+.linkedin-logo {
+  background: white !important;
+  color: dodgerblue !important;
+  width: 2rem !important;
+  height: 2rem !important;
+  text-align: center !important;
+  border-radius: 5px !important;
+}
+
+.logo-container {
+  border: 5px solid var(--brand-primary-light-color);
+  border-radius: 3px;
+}
+
+.app-file-drop-zone {
+  border: 2px dashed var(--brand-primary-light-color);
+  height: 30vh !important;
+}
+
+.wave-animation {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 100px;
+  height: 100px;
+  border-radius: 50%;
+  background-color: rgba(0, 0, 255, 0.3);
+  animation: wave 2s infinite ease-in-out;
+}
+
+.rotate-icons {
+  width: 35px !important;
+  height: 35px !important;
+  cursor: pointer !important;
+  transition: 0.5s;
+}
+
+.rotate-icons:hover,
+.rotate-icons:focus {
+  background: var(--brand-primary-light-color) !important;
+}
+
+.custom-range::-webkit-slider-thumb {
+  background-color: var(--brand-primary-light-color);
+}
+
+.custom-range::-moz-range-thumb {
+  background-color: var(--brand-primary-light-color);
+}
+
+.custom-range::-ms-thumb {
+  background-color: var(--brand-primary-light-color);
+}
+
+.aspect-ratio,
+.height-input,
+.width-input {
+  background: var(--brand-tooltip-color);
+}
+
+.height-input:focus,
+.width-input:focus {
+  background: var(--brand-tooltip-color);
+  color: var(--brand-white-color) !important;
+  box-shadow: none;
+}
+
+.aspect-ratio:focus {
+  box-shadow: none;
+}
+input[type='number']::-webkit-inner-spin-button,
+input[type='number']::-webkit-outer-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  overflow: hidden;
+  position: absolute;
+  clip: rect(0, 0, 0, 0);
+}
+
+@keyframes wave {
+  0% {
+    transform: translate(-50%, -50%) scale(0);
+    opacity: 1;
+  }
+  100% {
+    transform: translate(-50%, -50%) scale(3);
+    opacity: 0;
+  }
+}
+.click-to-upload {
+  cursor: pointer !important;
+}
+.photo-editor {
+  border: 2px dashed var(--brand-primary-light-color);
+}
+/* @overrid default sweetalert2 styles */
+
+.swal2-popup.swal2-modal {
+  background-color: var(--brand-tooltip-color) !important;
+  color: var(--brand-white-color) !important;
+}
+
+.swal2-confirm {
+  background-color: var(--brand-primary-light-color) !important;
+  color: var(--brand-white-color) !important;
+  outline: none !important;
+  box-shadow: none !important;
+  border-radius: var(--brand-button-border-radius) !important;
+  width: 150px !important;
+  font-weight: bold !important;
+  font-size: 0.9rem !important;
+  border: 2px solid transparent !important;
+  margin-right: 20px !important;
+}
+
+.swal2-actions {
+  width: 100% !important;
+  display: flex !important;
+  align-items: center !important;
+  justify-content: end !important;
+}
+.swal2-confirm:hover {
+  background: var(--brand-primary-light-color) !important;
+  border: 2px solid var(--brand-white-color) !important;
+}
+::-webkit-scrollbar {
+  width: 9px;
+  height: 5px;
+}
+
+::-webkit-scrollbar-track {
+  background-color: #6c757d;
+}
+
+::-webkit-scrollbar-thumb {
+  background-color: #48cae4;
+  border-radius: 10px;
+  padding: 1px;
+}
