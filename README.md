@@ -1,4 +1,6 @@
 # FotoGraph
+*Total Hours Spent On FotoGraph*
+[![wakatime](https://wakatime.com/badge/user/1cf7c976-595a-4fc7-a7c4-324b43a74aca/project/fdcac2b3-e915-4cfc-9ae0-50c90249bfb3.svg)](https://wakatime.com/badge/user/1cf7c976-595a-4fc7-a7c4-324b43a74aca/project/fdcac2b3-e915-4cfc-9ae0-50c90249bfb3)
 
 An Open Source Cross Platform Desktop Application For Image Manipulation
 
