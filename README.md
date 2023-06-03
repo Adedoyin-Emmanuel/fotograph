@@ -47,7 +47,7 @@ Below are the technologies I used
 - **Electron-React**
 - **TypeScript**
 - **React-Bootstrap**
-- **NodeJS**
+- **NodeJS**k
 
 #### Author
 
