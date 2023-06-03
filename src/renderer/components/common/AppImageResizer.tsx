@@ -1,4 +1,4 @@
-import React, { useState, useRef } from 'react';
+import React, { useState, useRef, FormEvent } from 'react';
 import { Form, Button } from 'react-bootstrap';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faRotateRight, faRotateLeft } from '@fortawesome/free-solid-svg-icons';
@@ -11,10 +11,33 @@ import ReactCrop, {
 
 interface AppImageResizerProps {}
 
+interface ImageAspectRatioProps {
+  height: number;
+  width: number;
+}
+
 const AppImageResizer: React.FC = (): JSX.Element => {
   const [crop, setCrop] = useState<Crop | any>();
   const imgRef = useRef<any>(null);
   const [buttonClicked, setButtonClicked] = useState<boolean>(false);
+  const [imageHeight, setImageHeight] = useState<number>(0);
+  const [imageWidth, setImageWidth] = useState<number>(0);
+  const [imageAspectRatio, setImageAspectRatio] =
+    useState<ImageAspectRatioProps>({ height: 0, width: 0 });
+  const [imageRotationAngle, setImageRotationAngle] = useState<number>(0);
+  const [imageBrightness, setImageBrightness] = useState<number>(0);
+
+  const handleImageBrightnessChange = (
+    e: FormEvent<HTMLInputElement> | any
+  ) => {
+    console.log(e.target.value);
+  };
+
+  const handleImageRotationAngleChange = (
+    e: FormEvent<HTMLInputElement> | any
+  ) => {
+    console.log(e.target.value);
+  };
 
   const handleClick = () => {
     handleCropComplete();
@@ -181,16 +204,30 @@ const AppImageResizer: React.FC = (): JSX.Element => {
             <section className="rotate-flip-straightening my-3">
               <Form.Group>
                 <Form.Label className="text-capitalize brand-small-text-2 text-muted">
-                  Straigtening
+                  Rotation
                 </Form.Label>
-                <Form.Range className="custom-range" />
+                <Form.Range
+                  className="custom-range"
+                  onChange={(e) => {
+                    handleImageRotationAngleChange(e);
+                  }}
+                  min={-360}
+                  max={360}
+                />
               </Form.Group>
 
               <Form.Group>
                 <Form.Label className="text-capitalize brand-small-text-2 text-muted">
                   brightness
                 </Form.Label>
-                <Form.Range className="custom-range" />
+                <Form.Range
+                  className="custom-range"
+                  onChange={(e) => {
+                    handleImageBrightnessChange(e);
+                  }}
+                  min={-100}
+                  max={100}
+                />
               </Form.Group>
 
               <section className="app-image-resizer-action-buttons d-flex align-items-center justify-content-start my-4">
