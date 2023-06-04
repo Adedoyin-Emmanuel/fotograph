@@ -1,7 +1,11 @@
 import React, { useState, useRef, FormEvent } from 'react';
 import { Form, Button } from 'react-bootstrap';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faRotateRight, faRotateLeft } from '@fortawesome/free-solid-svg-icons';
+import {
+  faRotateRight,
+  faRotateLeft,
+  faXmark,
+} from '@fortawesome/free-solid-svg-icons';
 import DemoImage from './../../../../assets/Emmanuel.png';
 import ReactCrop, {
   type Crop,
@@ -26,11 +30,45 @@ const AppImageResizer: React.FC = (): JSX.Element => {
     useState<ImageAspectRatioProps>({ height: 0, width: 0 });
   const [imageRotationAngle, setImageRotationAngle] = useState<number>(0);
   const [imageBrightness, setImageBrightness] = useState<number>(0);
-
-  const handleImageBrightnessChange = (
+  const [imageURL, setImageURL] = useState<any>();
+  const [defaultImageState, setDefaultImageState] = useState<any>();
+  const handleImageBrightnessChange = async (
     e: FormEvent<HTMLInputElement> | any
   ) => {
+    const fileReader = new FileReader();
+    const canvas = getCroppedCanvas();
+
+    const croppedFile = await canvasToFile(canvas, 'cropped-image.png');
+
+    // Cast the croppedFile to Blob type
+    const blob = croppedFile as Blob;
+    const file = blob;
     console.log(e.target.value);
+    fileReader.onload = (event: any) => {
+      const fileData = event.target.result;
+      const values = {
+        file: fileData,
+        brightnessValue: e.target.value,
+      };
+      window.electron.ipcRenderer.sendMessage('adjust-brightness', values);
+    };
+
+    fileReader.readAsArrayBuffer(file);
+
+    window.electron.ipcRenderer.on('brightness-adjust-error', (event, data) => {
+      console.log('Error event');
+      console.log(event);
+    });
+    window.electron.ipcRenderer.on('image-brightned', (event: any, data) => {
+      const imageBlob = new Blob([event], { type: 'image/png' });
+      const imageUrl = URL.createObjectURL(imageBlob);
+      setImageURL(imageUrl);
+    });
+  };
+
+  /*we reset the image to normal and remove all operations */
+  const handleCancelClick = () => {
+    imgRef.current.src = DemoImage;
   };
 
   const handleImageRotationAngleChange = (
@@ -67,7 +105,13 @@ const AppImageResizer: React.FC = (): JSX.Element => {
     const canvas = document.createElement('canvas');
     const scaleX = imageElement.naturalWidth / imageElement.width;
     const scaleY = imageElement.naturalHeight / imageElement.height;
-    const { width, height, x, y } = crop;
+    const customImage = {
+      width: imgRef.current.width,
+      height: imgRef.current.height,
+      x: 0,
+      y: 0,
+    };
+    const { width, height, x, y } = crop || customImage;
 
     canvas.width = width;
     canvas.height = height;
@@ -129,6 +173,8 @@ const AppImageResizer: React.FC = (): JSX.Element => {
       }
     );
   };
+
+  const legitImageURL = imageURL ? imageURL : DemoImage;
   return (
     <React.Fragment>
       <section className="app-image-resizer w-100 row ">
@@ -192,6 +238,17 @@ const AppImageResizer: React.FC = (): JSX.Element => {
                 />
               </section>
 
+              <section
+                className="cancel-icon brand-tooltip-color p-1 rounded shadow-sm rotate-icons d-flex align-items-center justify-content-center"
+                onClick={handleCancelClick}
+              >
+                <FontAwesomeIcon
+                  icon={faXmark}
+                  size="1x"
+                  className="text-danger"
+                />
+              </section>
+
               <section className="rotate-icon-right brand-tooltip-color p-1 rounded shadow-sm rotate-icons d-flex align-items-center justify-content-center">
                 <FontAwesomeIcon
                   icon={faRotateRight}
@@ -225,8 +282,10 @@ const AppImageResizer: React.FC = (): JSX.Element => {
                   onChange={(e) => {
                     handleImageBrightnessChange(e);
                   }}
-                  min={-100}
-                  max={100}
+                  min={0}
+                  defaultValue={1}
+                  step={0.01}
+                  max={5}
                 />
               </Form.Group>
 
@@ -244,7 +303,7 @@ const AppImageResizer: React.FC = (): JSX.Element => {
 
         <section className="app-image-resizer-image col-7 d-flex align-items-center justify-content-center photo-editor rounded-3 mx-5">
           <ReactCrop crop={crop} onChange={(c) => setCrop(c)}>
-            <img src={DemoImage} className="img-fluid" ref={imgRef} />
+            <img src={legitImageURL} className="img-fluid" ref={imgRef} />
           </ReactCrop>
         </section>
         <section className="col-1"></section>

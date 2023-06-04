@@ -45,13 +45,15 @@ ipcMain.on('adjust-brightness', (event, prams: any) => {
   const buffer = Buffer.from(file, 'base64');
 
   sharp(buffer)
-    .modulate({ brightness: brightnessValue })
+    .modulate({ brightness: parseInt(brightnessValue) })
     .toBuffer()
     .then((buffer: Buffer) => {
       event.sender.send('image-brightned', buffer);
+      console.log(buffer);
     })
     .catch((error: any) => {
       event.sender.send('brightness-adjust-error', error);
+      console.log(error);
     });
 });
 

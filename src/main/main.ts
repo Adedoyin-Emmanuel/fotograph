@@ -17,6 +17,7 @@ import { resolveHtmlPath } from './util';
 import './misc/registerStorage';
 import './misc/electron-notification';
 import './misc/electron-image-converter';
+import './misc/electron-image-resizer';
 class AppUpdater {
   constructor() {
     log.transports.file.level = 'info';

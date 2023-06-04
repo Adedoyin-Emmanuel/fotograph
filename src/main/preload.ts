@@ -4,7 +4,6 @@ import { contextBridge, ipcRenderer, IpcRendererEvent } from 'electron';
 
 export type Channels = 'ipc-example' | any;
 
-
 const electronHandler = {
   ipcRenderer: {
     sendMessage(channel: Channels, args: unknown[] | any) {
@@ -14,7 +13,7 @@ const electronHandler = {
       const subscription = (_event: IpcRendererEvent, ...args: unknown[]) =>
         func(...args);
       ipcRenderer.on(channel, subscription);
-
+      ipcRenderer.setMaxListeners(100); // Increase the limit to 15
       return () => {
         ipcRenderer.removeListener(channel, subscription);
       };
