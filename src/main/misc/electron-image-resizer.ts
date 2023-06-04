@@ -29,7 +29,7 @@ ipcMain.on('rotate-image', (event, prams: any) => {
 
   const buffer = Buffer.from(file, 'base64');
   sharp(buffer)
-    .rotate(rotationAngle)
+    .rotate(parseInt(rotationAngle))
     .toBuffer()
     .then((rotatedBuffer: Buffer) => {
       event.sender.send('image-rotated', rotatedBuffer);

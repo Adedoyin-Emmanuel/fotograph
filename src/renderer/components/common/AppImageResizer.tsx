@@ -32,6 +32,7 @@ const AppImageResizer: React.FC = (): JSX.Element => {
   const [imageBrightness, setImageBrightness] = useState<number>(0);
   const [imageURL, setImageURL] = useState<any>();
   const [defaultImageState, setDefaultImageState] = useState<any>();
+
   const handleImageBrightnessChange = async (
     e: FormEvent<HTMLInputElement> | any
   ) => {
@@ -71,10 +72,36 @@ const AppImageResizer: React.FC = (): JSX.Element => {
     imgRef.current.src = DemoImage;
   };
 
-  const handleImageRotationAngleChange = (
+  const handleImageRotationAngleChange = async (
     e: FormEvent<HTMLInputElement> | any
   ) => {
+    const fileReader = new FileReader();
+    const canvas = getCroppedCanvas();
+    const croppedFile = await canvasToFile(canvas, 'cropped-image.png');
+
+    // Cast the croppedFile to Blob type
+    const blob = croppedFile as Blob;
+    const file = blob;
     console.log(e.target.value);
+
+    fileReader.onload = (event: any) => {
+      const fileData = event.target.result;
+      const values = {
+        file: fileData,
+        rotationAngle: e.target.value,
+      };
+
+      window.electron.ipcRenderer.sendMessage('rotate-image', values);
+    };
+
+    fileReader.readAsArrayBuffer(file);
+
+    /*check if the main process returns a positive result*/
+    window.electron.ipcRenderer.on('image-rotated', (event: any, data) => {
+      const imageBlob = new Blob([event], { type: 'image/png' });
+      const imageUrl = URL.createObjectURL(imageBlob);
+      setImageURL(imageUrl);
+    });
   };
 
   const handleClick = () => {
@@ -268,8 +295,10 @@ const AppImageResizer: React.FC = (): JSX.Element => {
                   onChange={(e) => {
                     handleImageRotationAngleChange(e);
                   }}
+                  defaultValue={0}
                   min={-360}
                   max={360}
+                  step={90}
                 />
               </Form.Group>
 
