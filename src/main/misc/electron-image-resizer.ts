@@ -72,3 +72,35 @@ ipcMain.on('resize-image', (event, prams: any) => {
       event.sender.send('resize-image-error', error);
     });
 });
+
+/*listen for image flip*/
+ipcMain.on('flip-image', (event, prams: any) => {
+  const { file, direction } = prams;
+  const buffer = Buffer.from(file, 'base64');
+
+  switch (direction) {
+    case 'right':
+      sharp(buffer)
+        .flop()
+        .toBuffer()
+        .then((buffer: Buffer) => {
+          event.sender.send('flip-right-success', buffer);
+        })
+        .catch((error: any) => {
+          event.sender.send('image-flip-error', error);
+        });
+      break;
+
+    case 'left':
+      sharp(buffer)
+        .flop(true)
+        .toBuffer()
+        .then((buffer: Buffer) => {
+          event.sender.send('flip-left-success', buffer);
+        })
+        .catch((error: any) => {
+          event.sender.send('image-flip-error', error);
+        });
+      break;
+  }
+});

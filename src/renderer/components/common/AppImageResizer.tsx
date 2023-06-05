@@ -201,6 +201,54 @@ const AppImageResizer: React.FC = (): JSX.Element => {
     );
   };
 
+  const handleFlip = async (direction: string) => {
+    const fileReader = new FileReader();
+    const canvas = getCroppedCanvas();
+    const croppedFile = await canvasToFile(canvas, 'cropped-image.png');
+
+    // Cast the croppedFile to Blob type
+    const blob = croppedFile as Blob;
+    const file = blob;
+
+    fileReader.onload = (event: any) => {
+      const fileData = event.target.result;
+      const values = {
+        file: fileData,
+        direction: direction,
+      };
+      window.electron.ipcRenderer.sendMessage('flip-image', values);
+    };
+
+    if (direction === 'right') {
+      window.electron.ipcRenderer.on(
+        'flip-right-success',
+        (event: any, data) => {
+          const imageBlob = new Blob([event], { type: 'image/png' });
+          const imageUrl = URL.createObjectURL(imageBlob);
+          setImageURL(imageUrl);
+        }
+      );
+    } else {
+      window.electron.ipcRenderer.on(
+        'flip-left-success',
+        (event: any, data) => {
+          const imageBlob = new Blob([event], { type: 'image/png' });
+          const imageUrl = URL.createObjectURL(imageBlob);
+          setImageURL(imageUrl);
+        }
+      );
+    }
+
+    fileReader.readAsArrayBuffer(file);
+  };
+
+  const handleFlipRight = () => {
+    handleFlip('right');
+  };
+
+  const handleFlipLeft = () => {
+    handleFlip('left');
+  };
   const legitImageURL = imageURL ? imageURL : DemoImage;
   return (
     <React.Fragment>
@@ -257,7 +305,10 @@ const AppImageResizer: React.FC = (): JSX.Element => {
               </p>
             </section>
             <section className="rotate-flip-icons d-flex align-items-center justify-content-between w-100 my-2">
-              <section className="rotate-icon-left brand-tooltip-color p-1 rounded shadow-sm rotate-icons d-flex align-items-center justify-content-center">
+              <section
+                className="rotate-icon-left brand-tooltip-color p-1 rounded shadow-sm rotate-icons d-flex align-items-center justify-content-center"
+                onClick={handleFlipLeft}
+              >
                 <FontAwesomeIcon
                   icon={faRotateLeft}
                   size="1x"
@@ -276,7 +327,10 @@ const AppImageResizer: React.FC = (): JSX.Element => {
                 />
               </section>
 
-              <section className="rotate-icon-right brand-tooltip-color p-1 rounded shadow-sm rotate-icons d-flex align-items-center justify-content-center">
+              <section
+                className="rotate-icon-right brand-tooltip-color p-1 rounded shadow-sm rotate-icons d-flex align-items-center justify-content-center"
+                onClick={handleFlipRight}
+              >
                 <FontAwesomeIcon
                   icon={faRotateRight}
                   size="1x"
