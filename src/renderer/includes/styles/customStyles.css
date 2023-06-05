@@ -40,7 +40,7 @@
 /*Brand primary utility classes*/
 
 .brand-primary-color {
-  background: var(--brand-primary-light-color);
+  background: var(--brand-primary-light-color) !important;
 }
 .brand-primary-color-2 {
   background: var(--brand-primary-light-color-2);

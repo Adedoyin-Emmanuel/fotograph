@@ -61,9 +61,19 @@ ipcMain.on('adjust-brightness', (event, prams: any) => {
 ipcMain.on('resize-image', (event, prams: any) => {
   const { file, height, width } = prams;
   const buffer = Buffer.from(file, 'base64');
-
+  console.log(height);
+  console.log(width);
+  if (parseInt(height) <= 0 || parseInt(width) <= 0) {
+    event.sender.send('resize-image-error', '0-arguments');
+    return;
+  }
   sharp(buffer)
-    .resize({ height, width })
+    .resize({
+      width: parseInt(width),
+      height: parseInt(height),
+      fit: 'inside',
+      withoutEnlargement: true,
+    })
     .toBuffer()
     .then((buffer: Buffer) => {
       event.reply('image-resized', buffer);
@@ -74,33 +84,21 @@ ipcMain.on('resize-image', (event, prams: any) => {
 });
 
 /*listen for image flip*/
-ipcMain.on('flip-image', (event, prams: any) => {
-  const { file, direction } = prams;
+ipcMain.on('flip-image', async (event, params) => {
+  const { file, direction } = params;
   const buffer = Buffer.from(file, 'base64');
 
-  switch (direction) {
-    case 'right':
-      sharp(buffer)
-        .flop()
-        .toBuffer()
-        .then((buffer: Buffer) => {
-          event.sender.send('flip-right-success', buffer);
-        })
-        .catch((error: any) => {
-          event.sender.send('image-flip-error', error);
-        });
-      break;
+  try {
+    let flippedBuffer;
 
-    case 'left':
-      sharp(buffer)
-        .flop(true)
-        .toBuffer()
-        .then((buffer: Buffer) => {
-          event.sender.send('flip-left-success', buffer);
-        })
-        .catch((error: any) => {
-          event.sender.send('image-flip-error', error);
-        });
-      break;
+    if (direction === 'right') {
+      flippedBuffer = await sharp(buffer).flop().toBuffer();
+      event.sender.send('flip-right-success', flippedBuffer);
+    } else if (direction === 'left') {
+      flippedBuffer = await sharp(buffer).flop(true).toBuffer();
+      event.sender.send('flip-left-success', flippedBuffer);
+    }
+  } catch (error) {
+    event.sender.send('image-flip-error', error);
   }
 });

@@ -1,6 +1,7 @@
-import React, { useState, useRef, FormEvent } from 'react';
+import React, { useState, useRef, FormEvent, useEffect } from 'react';
 import { Form, Button } from 'react-bootstrap';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import Swal, { SweetAlertResult } from 'sweetalert2';
 import {
   faRotateRight,
   faRotateLeft,
@@ -23,15 +24,35 @@ interface ImageAspectRatioProps {
 const AppImageResizer: React.FC = (): JSX.Element => {
   const [crop, setCrop] = useState<Crop | any>();
   const imgRef = useRef<any>(null);
-  const [buttonClicked, setButtonClicked] = useState<boolean>(false);
+  const [imageURL, setImageURL] = useState<any>();
+  const [imageResizeMode, setImageResizeMode] = useState<string>('');
   const [imageHeight, setImageHeight] = useState<number>(0);
   const [imageWidth, setImageWidth] = useState<number>(0);
-  const [imageAspectRatio, setImageAspectRatio] =
-    useState<ImageAspectRatioProps>({ height: 0, width: 0 });
-  const [imageRotationAngle, setImageRotationAngle] = useState<number>(0);
-  const [imageBrightness, setImageBrightness] = useState<number>(0);
-  const [imageURL, setImageURL] = useState<any>();
-  const [defaultImageState, setDefaultImageState] = useState<any>();
+
+  const [imageLoaded, setImageLoaded] = useState(false);
+
+  useEffect(() => {
+    // Add an event listener to the image to handle the load event
+    const handleImageLoad = () => {
+      setImageLoaded(true);
+    };
+
+    const imageElement = imgRef.current;
+    if (imageElement && !imageLoaded) {
+      imageElement.addEventListener('load', handleImageLoad);
+    }
+
+    // Clean up the event listener when the component unmounts
+    return () => {
+      if (imageElement) {
+        imageElement.removeEventListener('load', handleImageLoad);
+        try {
+          setImageHeight(imgRef.current.height);
+          setImageWidth(imgRef.current.width);
+        } catch (error: any) {}
+      }
+    };
+  }, [imageLoaded]);
 
   const handleImageBrightnessChange = async (
     e: FormEvent<HTMLInputElement> | any
@@ -249,6 +270,75 @@ const AppImageResizer: React.FC = (): JSX.Element => {
   const handleFlipLeft = () => {
     handleFlip('left');
   };
+  const handleResizeButtonClick = () => {
+    handleImageResize(imageWidth, imageHeight);
+  };
+  const handleImageHeightChange = (
+    event: FormEvent<HTMLInputElement> | any
+  ) => {
+    const inputValue = event.target.value;
+    setImageHeight(inputValue);
+  };
+
+  const handleImageWidthChange = (event: FormEvent<HTMLInputElement> | any) => {
+    const inputValue = event.target.value;
+
+    setImageWidth(inputValue);
+  };
+
+  const handleImageResize = async (
+    width: number = imageWidth,
+    height: number = imageHeight
+  ) => {
+    const fileReader = new FileReader();
+    const canvas = getCroppedCanvas();
+    const croppedFile = await canvasToFile(canvas, 'cropped-image.png');
+
+    // Cast the croppedFile to Blob type
+    const blob = croppedFile as Blob;
+    const file = blob;
+    fileReader.onload = (event: any) => {
+      const fileData = event.target.result;
+      const values = {
+        file: fileData,
+        width: width,
+        height: height,
+      };
+
+      window.electron.ipcRenderer.sendMessage('resize-image', values);
+    };
+
+    fileReader.readAsArrayBuffer(file);
+
+    window.electron.ipcRenderer.on('image-resized', (event: any, data) => {
+      const imageBlob = new Blob([event], { type: 'image/png' });
+      const imageUrl = URL.createObjectURL(imageBlob);
+      setImageURL(imageUrl);
+    });
+
+    window.electron.ipcRenderer.on('resize-image-error', (event, data) => {
+      console.log(event);
+      if (event === '0-arguments') {
+        Swal.fire({
+          toast: true,
+          text: 'Width or Height cannot be 0',
+          position: 'top-right',
+          icon: 'error',
+          showConfirmButton: false,
+          timer: 3000,
+        });
+      } else {
+        Swal.fire({
+          toast: true,
+          text: 'Resize Error',
+          position: 'top-right',
+          icon: 'error',
+          showConfirmButton: false,
+          timer: 3000,
+        });
+      }
+    });
+  };
   const legitImageURL = imageURL ? imageURL : DemoImage;
   return (
     <React.Fragment>
@@ -259,42 +349,32 @@ const AppImageResizer: React.FC = (): JSX.Element => {
               <Form.Group controlId="image-height" className="col-6">
                 <Form.Control
                   type="number"
-                  min="1"
-                  name="image-height"
+                  defaultValue={imageLoaded ? imgRef.current.height : ''}
                   placeholder="height"
                   className="brand-small-text-2 height-input brand-white-text"
+                  onChange={handleImageHeightChange}
                 />
               </Form.Group>
 
               <Form.Group controlId="image-width" className="col-6">
                 <Form.Control
                   type="number"
-                  min="1"
+                  defaultValue={imageLoaded ? imgRef.current.width : ''}
                   name="image-width"
                   placeholder="width"
                   className="brand-small-text-2 width-input brand-white-text"
+                  onChange={handleImageWidthChange}
                 ></Form.Control>
               </Form.Group>
             </section>
 
             <section className="image-aspect-ratio w-100">
-              <Form.Select
-                name="image-aspect-ratio"
-                className="brand-small-text-2 text-capitalize aspect-ratio brand-white-text "
+              <Button
+                className="text-capitalize brand-small-text-2 btn-lg brand-primary-color border-0 my-3"
+                onClick={handleResizeButtonClick}
               >
-                <option value="1" className="text-capitalize">
-                  Widescreen - 16.9
-                </option>
-                <option value="2" className="text-capitalize">
-                  Smallscreen - 16.9
-                </option>
-                <option value="3" className="text-capitalize">
-                  Largescreen - 16.9
-                </option>
-                <option value="4" className="text-capitalize">
-                  Middlescreen - 16.9
-                </option>
-              </Form.Select>
+                scale images
+              </Button>
             </section>
           </section>
 
@@ -374,7 +454,7 @@ const AppImageResizer: React.FC = (): JSX.Element => {
 
               <section className="app-image-resizer-action-buttons d-flex align-items-center justify-content-start my-4">
                 <Button
-                  className="text-capitalize brand-small-text-2 btn-lg brand-button"
+                  className="text-capitalize brand-small-text-2 btn-lg brand-primary-color border-0"
                   onClick={handleClick}
                 >
                   save changes
