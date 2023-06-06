@@ -6,8 +6,6 @@
 
 An Open Source Cross Platform Desktop Application For Image Manipulation
 
-![FotoGraphLogo](/assets/logo.png)
-
 ### Table Of Content
 
 - [FotoGraph](#fotograph)
