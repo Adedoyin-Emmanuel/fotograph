@@ -91,6 +91,7 @@
     "@fortawesome/free-brands-svg-icons": "^6.4.0",
     "@fortawesome/free-solid-svg-icons": "^6.4.0",
     "@fortawesome/react-fontawesome": "^0.2.0",
+    "@squoosh/lib": "^0.5.3",
     "bootstrap": "^5.2.3",
     "electron-debug": "^3.2.0",
     "electron-dl": "^3.5.0",
@@ -106,6 +107,7 @@
     "react-dom": "^18.2.0",
     "react-image-crop": "^10.1.4",
     "react-router-dom": "^6.8.1",
+    "squoosh": "^0.0.0",
     "sweetalert2": "^11.7.3",
     "toastify-js": "^1.12.0",
     "v8": "^0.1.0"
