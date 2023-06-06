@@ -64,7 +64,7 @@ const AppLayout = ({
               <FontAwesomeIcon
                 icon={faRecycle}
                 className={`${
-                  onConverterPage ? 'brand-primary-text' : 'text-muted'
+                  onConverterPage ? 'brand-primary-text' : 'text-muted-layout'
                 } icons`}
                 size="xl"
               />
@@ -87,7 +87,7 @@ const AppLayout = ({
               <FontAwesomeIcon
                 icon={faEraser}
                 className={`${
-                  onRemoverPage ? 'brand-primary-text' : 'text-muted'
+                  onRemoverPage ? 'brand-primary-text' : 'text-muted-layout'
                 } icons`}
                 size="xl"
               />
@@ -110,7 +110,7 @@ const AppLayout = ({
               <FontAwesomeIcon
                 icon={faMagnifyingGlass}
                 className={`${
-                  onDownloadPage ? 'brand-primary-text' : 'text-muted'
+                  onDownloadPage ? 'brand-primary-text' : 'text-muted-layout'
                 } icons`}
                 size="xl"
               />
@@ -133,7 +133,7 @@ const AppLayout = ({
               <FontAwesomeIcon
                 icon={faMinimize}
                 className={`${
-                  onResizerPage ? 'brand-primary-text' : 'text-muted'
+                  onResizerPage ? 'brand-primary-text' : 'text-muted-layout'
                 } icons`}
                 size="xl"
               />
@@ -157,7 +157,7 @@ const AppLayout = ({
               <FontAwesomeIcon
                 icon={faCompress}
                 className={`${
-                  onShrinkerPage ? 'brand-primary-text' : 'text-muted'
+                  onShrinkerPage ? 'brand-primary-text' : 'text-muted-layout'
                 } icons`}
                 size="xl"
               />
@@ -181,7 +181,7 @@ const AppLayout = ({
               <FontAwesomeIcon
                 icon={faBoltLightning}
                 className={`${
-                  onGeneratorPage ? 'brand-primary-text' : 'text-muted'
+                  onGeneratorPage ? 'brand-primary-text' : 'text-muted-layout'
                 } icons`}
                 size="xl"
               />
@@ -205,7 +205,7 @@ const AppLayout = ({
               <FontAwesomeIcon
                 icon={faGear}
                 className={`${
-                  onSettingsPage ? 'brand-primary-text' : 'text-muted'
+                  onSettingsPage ? 'brand-primary-text' : 'text-muted-layout'
                 } icons`}
                 size="xl"
               />
@@ -229,7 +229,7 @@ const AppLayout = ({
               <FontAwesomeIcon
                 icon={faGift}
                 className={`${
-                  onSupportPage ? 'brand-primary-text' : 'text-muted'
+                  onSupportPage ? 'brand-primary-text' : 'text-muted-layout'
                 } icons`}
                 size="xl"
               />

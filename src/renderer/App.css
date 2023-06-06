@@ -10,6 +10,14 @@
   overflow-x: hidden !important;
 }
 
+.text-muted {
+  color: #9e9b9b !important;
+}
+
+.text-muted-layout {
+  color: #6C757D !important;
+}
+
 .icons-container > .icons {
   cursor: pointer !important;
 }
