@@ -11,6 +11,7 @@ import {
 import ReactCrop, { type Crop } from 'react-image-crop';
 import { OverlayTrigger, Tooltip } from 'react-bootstrap';
 import db from 'renderer/backend/local-storage/db';
+
 interface AppImageResizerProps {}
 
 const AppImageResizer: React.FC = (): JSX.Element => {
