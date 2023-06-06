@@ -6,15 +6,17 @@
 
 An Open Source Cross Platform Desktop Application For Image Manipulation
 
+![Main Application](/assets/screenshots/main-application.png)
+
 ### Table Of Content
 
 - [FotoGraph](#fotograph)
-  - [Table Of Content](#table-of-content)
-    - [Introduction](#introduction)
-    - [Please Note](#please-note)
-    - [Images](#images)
-    - [Technologies](#technologies)
-    - [Author](#author)
+    - [Table Of Content](#table-of-content)
+      - [Introduction](#introduction)
+      - [Please Note](#please-note)
+      - [Images](#images)
+      - [Technologies](#technologies)
+      - [Author](#author)
 
 #### Introduction
 
@@ -39,6 +41,9 @@ Here is what the final product would look like :)
 ![Image Downloader ](/assets/screenshots/image-downloader.png)
 ![Image Downloader ](/assets/screenshots/image-downloader-2.png)
 ![Image Downloader ](/assets/screenshots/image-downloader-3.png)
+
+![Image Size Reducer ](/assets/screenshots/image-size-reducer.png)
+![Image Size Reducer ](/assets/screenshots/image-size-reducer-2.png)
 
 ![Image Resizer ](/assets/screenshots/image-resizer.png)
 ![Image Resizer ](/assets/screenshots/image-resizer-2.png)
