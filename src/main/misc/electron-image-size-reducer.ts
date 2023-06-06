@@ -1,10 +1,17 @@
 import { ipcMain, app, dialog } from 'electron';
 const sharp = require('sharp');
 const path = require('path');
+import { retriveFileName } from './../util';
 
 ipcMain.on('compress-image', async (event, params) => {
   try {
-    const { file, fileName, fileCompressionLevel, fileExtension } = params;
+    const {
+      file,
+      fileName,
+      fileCompressionLevel,
+      fileExtension,
+      initialFileSize,
+    } = params;
     console.log(params);
 
     let compressionLevel;
@@ -83,15 +90,18 @@ ipcMain.on('compress-image', async (event, params) => {
     const compressedImage = compressedImageBuffer.toString('base64');
     const compressedSizeKb = compressedImageBuffer.length / 1024;
 
-    const newFileName = `fotograph-compressed-${fileName}.${fileExtension}`;
+    const newFileName = `fotograph-compressed-${retriveFileName(
+      fileName
+    )}.${fileExtension}`;
     const downloadsPath = app.getPath('downloads');
     const outputPath = path.join(downloadsPath, newFileName);
 
     await sharp(compressedImageBuffer).toFile(outputPath);
 
     event.reply('compress-image-success', {
-      compressedImage,
       compressedSizeKb,
+      fileName,
+      initialFileSize,
     });
   } catch (error: any) {
     event.reply('compress-image-error', { error: error.message });
