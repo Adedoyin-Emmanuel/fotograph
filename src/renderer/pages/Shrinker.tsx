@@ -12,13 +12,24 @@ import AppFileDropZone from 'renderer/components/common/AppFileDropZone';
 import CompressorContext from 'renderer/context/image-compresser-context';
 import CompressorProvider from 'renderer/providers/image-compressor-provider';
 import AppFileCollection from 'renderer/components/common/AppFileCollection';
+import { Button, Modal } from 'react-bootstrap';
 
 const Shrinker = (): JSX.Element => {
   const [dragging, setDragging] = useState<boolean>(false);
+  const [showModal, setShowModal] = useState(false);
+
   const [fileToCompress, setFileToCompress] = useState<any[]>();
   const [fileToSendToCompressor, setFileToSendToCompressor] = useState<any>({});
   const [allFilesContainer, setAllFilesContainer] = useState<any>([]);
   const [contextValues, setContextValues] = useState<any>({});
+
+  const handleModalOpen = () => {
+    setShowModal(true);
+  };
+
+  const handleModalClose = () => {
+    setShowModal(false);
+  };
 
   const handleDragEnter = (e: DragEvent<HTMLDivElement>) => {
     e.preventDefault();
@@ -78,6 +89,7 @@ const Shrinker = (): JSX.Element => {
             fileSize={file.size}
             onCancel={(e: MouseEvent) => handleFileRemoval(index, e)}
             conversionStatus={contextValues.status}
+            compressionDetails={contextValues.compressionDetails[file.name]}
           />
         );
       })
@@ -100,39 +112,52 @@ const Shrinker = (): JSX.Element => {
         className="app-content-scroll app-content-flex flex-column"
         onShrinkerPage={true}
       >
-        <section className="convert-container d-flex align-items-start justify-content-start flex-column mx-4">
-          <AppHeader className="text-capitalize my-3">
-            Image size reducer
-          </AppHeader>
-          <p className="text-muted">Reduce an image size</p>
-        </section>
+        <CompressorContext.Consumer>
+          {(context) => {
+            context && setContextValues(context);
+            return (
+              <>
+                <section className="convert-container d-flex align-items-start justify-content-start flex-column mx-4">
+                  <AppHeader className="text-capitalize my-3">
+                    Image size reducer
+                  </AppHeader>
+                  <p className="text-muted">Reduce an image size</p>
+                </section>
 
-        <form
-          className="upload-button-section width-toggle-3 d-flex align-items-center m-auto flex-column"
-          encType="multipart/form-data"
-          id="conversion_form"
-          onChange={(e: FormEvent) => handleFileUpload(e)}
-          onSubmit={(e: FormEvent) => handleCompress(e)}
-        >
-          <AppFileDropZone
-            handleDragEnter={handleDragEnter}
-            handleDragLeave={handleDragLeave}
-            handleDragOver={handleDragOver}
-            handleDrop={handleDrop}
-          />
-          <section className="spacer my-3"></section>
-          <React.Fragment>{fileToCompress && allFilesContainer}</React.Fragment>
-          {fileToCompress && (
-            <section className="submit-button-container w-100 d-flex align-items-start my-5">
-              <AppButton
-                className="width-toggle brand-small-text text-capitalize"
-                onClick={handleCompress}
-              >
-                Compress Image
-              </AppButton>
-            </section>
-          )}
-        </form>
+                <form
+                  className="upload-button-section width-toggle-3 d-flex align-items-center m-auto flex-column"
+                  encType="multipart/form-data"
+                  id="conversion_form"
+                  onChange={(e: FormEvent) => handleFileUpload(e)}
+                  onSubmit={(e: FormEvent) => handleCompress(e)}
+                >
+                  <AppFileDropZone
+                    handleDragEnter={handleDragEnter}
+                    handleDragLeave={handleDragLeave}
+                    handleDragOver={handleDragOver}
+                    handleDrop={handleDrop}
+                  />
+                  <section className="spacer my-3"></section>
+                  <React.Fragment>
+                    {fileToCompress && allFilesContainer}
+                  </React.Fragment>
+                  {fileToCompress && (
+                    <section className="submit-button-container w-100 d-flex align-items-start my-5">
+                      <AppButton
+                        className="width-toggle brand-small-text text-capitalize"
+                        onClick={handleCompress}
+                      >
+                        Compress Image
+                      </AppButton>
+                    </section>
+                  )}
+
+                  <section className="compression-details"></section>
+                </form>
+              </>
+            );
+          }}
+        </CompressorContext.Consumer>
       </AppLayout>
     </CompressorProvider>
   );

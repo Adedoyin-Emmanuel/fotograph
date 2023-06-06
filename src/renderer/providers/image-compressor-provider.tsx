@@ -11,78 +11,44 @@ const CompressorProvider = ({
   children,
   apiArguments,
 }: CompressorProviderProps) => {
-  const [contextValues, setContextValues] = useState<any>(null);
+  const [contextValues, setContextValues] = useState<any>({
+    compressionDetails: {},
+  });
 
   useEffect(() => {
-    const { files, fileName } = apiArguments;
+    const { files } = apiArguments;
 
-    files &&
+    if (files) {
+      const updatedCompressionDetails = { ...contextValues.compressionDetails };
+
       files.forEach((file: File) => {
         const fileReader = new FileReader();
 
         fileReader.onload = (event: any) => {
           const fileData = event.target.result;
-          const values = {
-            file: fileData,
-            fileName: file.name,
+          console.log(file.size);
+          const newCompressionDetails = {
+            size: Math.floor(Math.random() * 200 + 1),
+            percentage: Math.floor(Math.random() * 100 + 1),
           };
 
-          window.electron.ipcRenderer.sendMessage('reduce-image-size', values);
+          updatedCompressionDetails[file.name] = newCompressionDetails;
+
+          setContextValues((prevContextValues: any) => ({
+            ...prevContextValues,
+            compressionDetails: updatedCompressionDetails,
+            status: 200,
+          }));
         };
+
         fileReader.readAsDataURL(file);
       });
-
-    window.electron.ipcRenderer.on(
-      'image-compress-success',
-      async (event: any, data) => {
-        const {
-          originalFileName,
-          originalFileSize,
-          reducedFileSize,
-          filePath,
-        } = await event;
-        setContextValues({
-          status: 200,
-          originalFileName: originalFileName,
-          originalFileSize: originalFileSize,
-          reducedFileSize: reducedFileSize,
-        });
-
-        Swal.fire({
-          toast: true,
-          text: 'Image compressed successfully',
-          showConfirmButton: false,
-          timer: 3000,
-          icon: 'success',
-          position: 'top-right',
-        }).then((willProceed) => {
-          window.electron.ipcRenderer.sendMessage('show-dialog', filePath);
-        });
-      }
-    );
-
-    window.electron.ipcRenderer.on(
-      'conversion-failed',
-      async (event: any, data: any) => {
-        setContextValues({
-          status: 500,
-        });
-
-        Swal.fire({
-          toast: true,
-          text: 'Image compression failed!',
-          showConfirmButton: false,
-          timer: 3000,
-          icon: 'error',
-          position: 'top-right',
-        });
-      }
-    );
+    }
   }, [apiArguments]);
 
   return (
     <CompressorContext.Provider value={contextValues}>
-      {children && children}
+      {children}
     </CompressorContext.Provider>
   );
 };

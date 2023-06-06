@@ -1,6 +1,11 @@
 import React from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faXmark, faFolder } from '@fortawesome/free-solid-svg-icons';
+import {
+  faXmark,
+  faFolder,
+  faArrowRight,
+  faArrowDown,
+} from '@fortawesome/free-solid-svg-icons';
 import {
   checkStringLength,
   convertBytesToKb,
@@ -13,6 +18,7 @@ interface AppFileCollectionProps {
   conversionStatus?: number;
   others?: any;
   onCancel: (index: any) => MouseEvent;
+  compressionDetails?: any;
 }
 
 const AppFileCollection = ({
@@ -22,6 +28,7 @@ const AppFileCollection = ({
   fileName,
   conversionStatus,
   onCancel,
+  compressionDetails,
 }: AppFileCollectionProps): JSX.Element => {
   let fileConversionStatus;
 
@@ -54,7 +61,27 @@ const AppFileCollection = ({
               {fileName && checkStringLength(fileName, 30)}
             </p>
             <p className="file-size m-0 brand-white-text brand-small-text-2">
-              {fileSize && convertBytesToKb(fileSize)} {'KB'}
+              {fileSize && convertBytesToKb(fileSize)} {'KB'}{' '}
+              {compressionDetails && (
+                <>
+                  <FontAwesomeIcon
+                    icon={faArrowRight}
+                    className="px-1 text-info"
+                  />
+                  <span className="text-white brand-small-text-2 fw-bold">
+                    {compressionDetails.size}{' '}
+                    <span className="text-info">KB</span>
+                  </span>
+                  <FontAwesomeIcon
+                    icon={faArrowDown}
+                    className="px-2 text-danger"
+                  />
+                  <span className="text-success brand-small-text-2 fw-bold">
+                    {compressionDetails.percentage}%
+                  </span>
+                </>
+              )}
+              <span className="brand-white-text brand-small-text-2"></span>
             </p>
           </section>
 
