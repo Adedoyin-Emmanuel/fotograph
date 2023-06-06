@@ -9,7 +9,6 @@ import {
 } from '@fortawesome/free-solid-svg-icons';
 import ReactCrop, { type Crop } from 'react-image-crop';
 import { OverlayTrigger, Tooltip } from 'react-bootstrap';
-import DemoImage from './../../../../assets/Emmanuel.png';
 import db from 'renderer/backend/local-storage/db';
 interface AppImageResizerProps {}
 
@@ -25,14 +24,16 @@ const AppImageResizer: React.FC = (): JSX.Element => {
   const renderTooltip = (tooltipText: string) => (
     <Tooltip id="tooltip">{tooltipText}</Tooltip>
   );
+
   useEffect(() => {
+    const imageElement = imgRef.current;
+
     const handleImageLoad = () => {
       setImageLoaded(true);
-      setImageHeight(imgRef.current.height);
-      setImageWidth(imgRef.current.width);
+      setImageHeight(imageElement.height);
+      setImageWidth(imageElement.width);
     };
 
-    const imageElement = imgRef.current;
     if (imageElement && !imageLoaded) {
       imageElement.addEventListener('load', handleImageLoad);
     }
@@ -40,14 +41,8 @@ const AppImageResizer: React.FC = (): JSX.Element => {
     return () => {
       if (imageElement) {
         imageElement.removeEventListener('load', handleImageLoad);
-        // try {
-        //   console.log(imageElement.current.height);
-        //   console.log(imageElement.current.width);
-        // } catch (error: any) {}
       }
     };
-
-    console.log(imgRef);
   }, [imageLoaded]);
 
   const handleImageBrightnessChange = async (
@@ -330,7 +325,7 @@ const AppImageResizer: React.FC = (): JSX.Element => {
                 <Form.Group controlId="image-height" className="col-6">
                   <Form.Control
                     type="number"
-                    defaultValue={imageLoaded && imgRef.current.height}
+                    defaultValue={imageLoaded ? imgRef.current.height : ''}
                     placeholder="height"
                     className="brand-small-text-2 height-input brand-white-text"
                     onChange={handleImageHeightChange}
@@ -340,7 +335,7 @@ const AppImageResizer: React.FC = (): JSX.Element => {
                 <Form.Group controlId="image-width" className="col-6">
                   <Form.Control
                     type="number"
-                    defaultValue={imageLoaded && imgRef.current.width}
+                    defaultValue={imageLoaded ? imgRef.current.width : ''}
                     name="image-width"
                     placeholder="width"
                     className="brand-small-text-2 width-input brand-white-text"
@@ -480,11 +475,7 @@ const AppImageResizer: React.FC = (): JSX.Element => {
             </section>
           )}
           <ReactCrop crop={crop} onChange={(c) => setCrop(c)}>
-            {imageURL ? (
-              <img src={imageURL} className="img-fluid" ref={imgRef} />
-            ) : (
-              <></>
-            )}
+            <img src={imageURL} className="img-fluid" ref={imgRef} />
           </ReactCrop>
         </section>
         <section className="col-1"></section>
