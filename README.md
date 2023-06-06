@@ -1,22 +1,28 @@
 # FotoGraph
-*Total Hours Spent On FotoGraph*
+
+<small>Total Hours Spent On FotoGraph</small>
+
 [![wakatime](https://wakatime.com/badge/user/1cf7c976-595a-4fc7-a7c4-324b43a74aca/project/fdcac2b3-e915-4cfc-9ae0-50c90249bfb3.svg)](https://wakatime.com/badge/user/1cf7c976-595a-4fc7-a7c4-324b43a74aca/project/fdcac2b3-e915-4cfc-9ae0-50c90249bfb3)
 
 An Open Source Cross Platform Desktop Application For Image Manipulation
 
+![FotoGraphLogo](/assets/logo.png)
+
 ### Table Of Content
 
 - [FotoGraph](#fotograph)
-    - [Table Of Content](#table-of-content)
-      - [Introduction](#introduction)
-      - [Please Note](#please-note)
-      - [Images](#images)
-      - [Technologies](#technologies)
-      - [Author](#author)
+  - [Table Of Content](#table-of-content)
+    - [Introduction](#introduction)
+    - [Please Note](#please-note)
+    - [Images](#images)
+    - [Technologies](#technologies)
+    - [Author](#author)
 
 #### Introduction
 
 FotoGraph is an open source powerful image manipulation software with a variety of tools for image conversion, bulk image downloading, AI-based image generation, background removal, image resizing, and compression.
+
+FotoGraph brings most image manipulation tools we use online to a single offline application that works on all operating systems,
 
 #### Please Note
 
@@ -26,19 +32,20 @@ This software is still in development and isn't available for testing until furt
 
 Here is what the final product would look like :)
 
-![Main Application](/assets/screenshots/main-screen.png)
-![Image Conversion 1](/assets/screenshots/image-conversion.png)
-![Image Conversion 2](/assets/screenshots/image-conversion-2.png)
-![Image Conversion 3](/assets/screenshots/image-conversion-3.png)
-![Image Conversion 4](/assets/screenshots/image-conversion-4.png)
+![Main Application](/assets/screenshots/main-application.png)
 
-![Image Downloader 1](/assets/screenshots/image-downloader.png)
-![Image Downloader 2](/assets/screenshots/image-downloader-2.png)
-![Image Downloader 3](/assets/screenshots/image-downloader-3.png)
-![Image Downloader 4](/assets/screenshots/image-downloader-4.png)
-![Image Downloader 5](/assets/screenshots/image-downloader-5.png)
+![Image Conversion ](/assets/screenshots/image-converter.png)
+![Image Conversion ](/assets/screenshots/image-converter-2.png)
+![Image Conversion ](/assets/screenshots/image-converter-3.png)
+
+![Image Downloader ](/assets/screenshots/image-downloader.png)
+![Image Downloader ](/assets/screenshots/image-downloader-2.png)
+![Image Downloader ](/assets/screenshots/image-downloader-3.png)
 
 ![Image Resizer ](/assets/screenshots/image-resizer.png)
+![Image Resizer ](/assets/screenshots/image-resizer-2.png)
+
+![Support FotoGraph ](/assets/screenshots/support-project.png)
 
 #### Technologies
 
