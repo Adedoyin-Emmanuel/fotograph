@@ -1,47 +1,56 @@
-import ConversionContext from 'renderer/context/conversion-context';
+import CompressorContext from 'renderer/context/image-compresser-context';
 import Swal from 'sweetalert2';
 import { useState, useEffect } from 'react';
-interface ConversionProviderProps {
+
+interface CompressorProviderProps {
   children: JSX.Element[] | JSX.Element;
   apiArguments: any;
 }
 
-const ConversionProvider = ({
+const CompressorProvider = ({
   children,
   apiArguments,
-}: ConversionProviderProps) => {
+}: CompressorProviderProps) => {
   const [contextValues, setContextValues] = useState<any>(null);
 
   useEffect(() => {
-    const { files, fileConversionFormat } = apiArguments;
+    const { files, fileName } = apiArguments;
 
     files &&
       files.forEach((file: File) => {
-        const reader = new FileReader();
-        reader.onload = (event: any) => {
+        const fileReader = new FileReader();
+
+        fileReader.onload = (event: any) => {
           const fileData = event.target.result;
           const values = {
-            files: fileData,
+            file: fileData,
             fileName: file.name,
-            fileConversionFormat: fileConversionFormat,
           };
-          window.electron.ipcRenderer.sendMessage('convert-images', values);
+
+          window.electron.ipcRenderer.sendMessage('reduce-image-size', values);
         };
-        reader.readAsArrayBuffer(file);
+        fileReader.readAsDataURL(file);
       });
 
     window.electron.ipcRenderer.on(
-      'conversion-successful',
-      async (event: any, data: any) => {
-        const { status, message, filePath } = await event;
-
+      'image-compress-success',
+      async (event: any, data) => {
+        const {
+          originalFileName,
+          originalFileSize,
+          reducedFileSize,
+          filePath,
+        } = await event;
         setContextValues({
-          status: status,
+          status: 200,
+          originalFileName: originalFileName,
+          originalFileSize: originalFileSize,
+          reducedFileSize: reducedFileSize,
         });
 
         Swal.fire({
           toast: true,
-          text: message,
+          text: 'Image compressed successfully',
           showConfirmButton: false,
           timer: 3000,
           icon: 'success',
@@ -55,15 +64,13 @@ const ConversionProvider = ({
     window.electron.ipcRenderer.on(
       'conversion-failed',
       async (event: any, data: any) => {
-        const { status, message } = await event;
-
         setContextValues({
-          status: status,
+          status: 500,
         });
 
         Swal.fire({
           toast: true,
-          text: message,
+          text: 'Image compression failed!',
           showConfirmButton: false,
           timer: 3000,
           icon: 'error',
@@ -74,10 +81,10 @@ const ConversionProvider = ({
   }, [apiArguments]);
 
   return (
-    <ConversionContext.Provider value={contextValues}>
+    <CompressorContext.Provider value={contextValues}>
       {children && children}
-    </ConversionContext.Provider>
+    </CompressorContext.Provider>
   );
 };
 
-export default ConversionProvider;
+export default CompressorProvider;

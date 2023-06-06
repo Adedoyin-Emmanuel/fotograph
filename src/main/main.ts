@@ -18,6 +18,7 @@ import './misc/registerStorage';
 import './misc/electron-notification';
 import './misc/electron-image-converter';
 import './misc/electron-image-resizer';
+import "./misc/electron-image-size-reducer";
 class AppUpdater {
   constructor() {
     log.transports.file.level = 'info';
