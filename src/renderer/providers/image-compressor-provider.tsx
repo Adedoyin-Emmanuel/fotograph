@@ -1,7 +1,7 @@
 import CompressorContext from 'renderer/context/image-compresser-context';
 import Swal from 'sweetalert2';
 import { useState, useEffect } from 'react';
-
+import { retrieveFileExtension } from 'renderer/includes/scripts/customScript';
 interface CompressorProviderProps {
   children: JSX.Element[] | JSX.Element;
   apiArguments: any;
@@ -16,32 +16,41 @@ const CompressorProvider = ({
   });
 
   useEffect(() => {
-    const { files } = apiArguments;
-
+    const { fileArray: files, fileCompressionLevel } = apiArguments;
+    console.log('from the provider file');
+    console.log(files, fileCompressionLevel);
     if (files) {
       const updatedCompressionDetails = { ...contextValues.compressionDetails };
 
       files.forEach((file: File) => {
         const fileReader = new FileReader();
 
-        fileReader.onload = (event: any) => {
+        fileReader.onload = async (event: any) => {
           const fileData = event.target.result;
-          console.log(file.size);
-          const newCompressionDetails = {
-            size: Math.floor(Math.random() * 200 + 1),
-            percentage: Math.floor(Math.random() * 100 + 1),
+          const values = {
+            file: fileData,
+            fileName: file.name,
+            fileExtension: retrieveFileExtension(file.name),
+            fileCompressionLevel: fileCompressionLevel,
           };
-
-          updatedCompressionDetails[file.name] = newCompressionDetails;
-
-          setContextValues((prevContextValues: any) => ({
-            ...prevContextValues,
-            compressionDetails: updatedCompressionDetails,
-            status: 200,
-          }));
+          console.log(values);
+          window.electron.ipcRenderer.sendMessage('compress-image', values);
         };
 
-        fileReader.readAsDataURL(file);
+        //  const newCompressionDetails = {
+        //    size: Math.floor(Math.random() * 200 + 1),
+        //    percentage: Math.floor(Math.random() * 100 + 1),
+        //  };
+
+        //  updatedCompressionDetails[file.name] = newCompressionDetails;
+
+        //  setContextValues((prevContextValues: any) => ({
+        //    ...prevContextValues,
+        //    compressionDetails: updatedCompressionDetails,
+        //    status: 200,
+        //  }));
+
+        fileReader.readAsArrayBuffer(file);
       });
     }
   }, [apiArguments]);

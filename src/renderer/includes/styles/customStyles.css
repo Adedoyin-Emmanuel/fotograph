@@ -327,8 +327,11 @@ body {
   width: 90%;
 }
 
+.convert-to-width-2 {
+  width: 200px !important;
+}
 .convert-to {
-  width: 100px !important;
+  width: 100px;
   background: var(--brand-tooltip-color);
 }
 .convert-to:focus {

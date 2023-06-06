@@ -1,40 +1,99 @@
-// import { ipcMain, dialog, app } from 'electron';
-// import path from 'path';
-// import imagemin from 'imagemin';
-// import imageminJpegtran from 'imagemin-jpegtran';
-// import imageminPngquant from 'imagemin-pngquant';
-// import fs from 'fs';
+import { ipcMain, app, dialog } from 'electron';
+const sharp = require('sharp');
+const path = require('path');
 
-// ipcMain.on('reduce-image-size', async (event, params) => {
-//   const { file, fileName } = params;
-//   const inputBuffer = Buffer.from(file, 'base64');
+ipcMain.on('compress-image', async (event, params) => {
+  try {
+    const { file, fileName, fileCompressionLevel, fileExtension } = params;
+    console.log(params);
 
-//   try {
-//     const outputBuffer = await imagemin.buffer(inputBuffer, {
-//       plugins: [
-//         imageminJpegtran(),
-//         imageminPngquant({
-//           quality: [0.6, 0.8],
-//         }),
-//       ],
-//     });
+    let compressionLevel;
 
-//     const originalImageSize = inputBuffer.length / 1024;
-//     const compressedImageSize = outputBuffer.length / 1024;
+    switch (fileExtension) {
+      case 'jpg':
+      case 'jpeg':
+      case 'webp':
+        switch (fileCompressionLevel) {
+          case 'High Compression':
+            compressionLevel = 80;
+            break;
+          case 'Higher Compression':
+            compressionLevel = 70;
+            break;
+          case 'Highest Compression':
+            compressionLevel = 60;
+            break;
+          default:
+            compressionLevel = 80;
+            break;
+        }
+        break;
+      case 'png':
+        switch (fileCompressionLevel) {
+          case 'High Compression':
+            compressionLevel = { compressionLevel: 8, adaptiveFiltering: true };
+            break;
+          case 'Higher Compression':
+            compressionLevel = { compressionLevel: 7, palette: true };
+            break;
+          case 'Highest Compression':
+            compressionLevel = {
+              compressionLevel: 6,
+              dither: 'FloydSteinberg',
+            };
+            break;
+          default:
+            compressionLevel = { compressionLevel: 8, adaptiveFiltering: true };
+            break;
+        }
+        break;
+      default:
+        compressionLevel = undefined;
+        break;
+    }
 
-//     const tempFilePath = path.join(
-//       app.getPath('downloads'),
-//       `fotograph-compressed-${fileName}`
-//     );
-//     fs.writeFileSync(tempFilePath, outputBuffer);
+    const buffer = Buffer.from(file, 'base64');
 
-//     event.sender.send('image-compress-success', {
-//       originalFileName: fileName,
-//       originalFileSize: `${originalImageSize.toFixed(2)} Kb`,
-//       reducedFileSize: `${compressedImageSize.toFixed(2)} Kb`,
-//       filePath: tempFilePath,
-//     });
-//   } catch (error:any) {
-//     event.sender.send('image-compress-error', error.message);
-//   }
-// });
+    let compressedImageBuffer;
+
+    switch (fileExtension) {
+      case 'jpg':
+      case 'jpeg':
+        compressedImageBuffer = await sharp(buffer)
+          .jpeg({ quality: compressionLevel })
+          .toBuffer();
+        break;
+      case 'png':
+        compressedImageBuffer = await sharp(buffer)
+          .png(compressionLevel)
+          .toBuffer();
+        break;
+      case 'webp':
+        compressedImageBuffer = await sharp(buffer)
+          .webp({ quality: compressionLevel })
+          .toBuffer();
+        break;
+      case 'gif':
+        compressedImageBuffer = await sharp(buffer).gif().toBuffer();
+        break;
+      default:
+        throw new Error(`Unsupported image format: ${fileExtension}`);
+    }
+
+    const compressedImage = compressedImageBuffer.toString('base64');
+    const compressedSizeKb = compressedImageBuffer.length / 1024;
+
+    const newFileName = `fotograph-compressed-${fileName}.${fileExtension}`;
+    const downloadsPath = app.getPath('downloads');
+    const outputPath = path.join(downloadsPath, newFileName);
+
+    await sharp(compressedImageBuffer).toFile(outputPath);
+
+    event.reply('compress-image-success', {
+      compressedImage,
+      compressedSizeKb,
+    });
+  } catch (error: any) {
+    event.reply('compress-image-error', { error: error.message });
+  }
+});

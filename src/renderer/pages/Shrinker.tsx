@@ -12,7 +12,8 @@ import AppFileDropZone from 'renderer/components/common/AppFileDropZone';
 import CompressorContext from 'renderer/context/image-compresser-context';
 import CompressorProvider from 'renderer/providers/image-compressor-provider';
 import AppFileCollection from 'renderer/components/common/AppFileCollection';
-import { Button, Modal } from 'react-bootstrap';
+import { Button, Modal, Tooltip, OverlayTrigger } from 'react-bootstrap';
+import AppConvertToButton from 'renderer/components/common/AppConvertToButton';
 
 const Shrinker = (): JSX.Element => {
   const [dragging, setDragging] = useState<boolean>(false);
@@ -65,10 +66,12 @@ const Shrinker = (): JSX.Element => {
   };
 
   const handleCompress = (e: any) => {
-    const files = fileToCompress;
-
-    console.log(files);
-    setFileToSendToCompressor({ files });
+    const files: any = fileToCompress;
+    const fileArray = [...files];
+    const fileCompressionLevel = e.target.form[1].value;
+    setFileToSendToCompressor({ fileArray, fileCompressionLevel });
+    console.log('from the renderer file');
+    console.log(fileArray, fileCompressionLevel);
   };
 
   const handleFileRemoval = (index: number, e: MouseEvent) => {
@@ -137,6 +140,23 @@ const Shrinker = (): JSX.Element => {
                     handleDragOver={handleDragOver}
                     handleDrop={handleDrop}
                   />
+
+                  {fileToCompress && (
+                    <section className="app-convert-to-container d-flex align-items-start w-100 my-3 flex-column">
+                      <p className="text-muted brand-small-text-2 text-capitalize my-2 ">
+                        compression level
+                      </p>
+
+                      <AppConvertToButton
+                        className="convert-to-width-2"
+                        values={[
+                          'High Compression',
+                          'Higher Compression',
+                          'Highest Compression',
+                        ]}
+                      />
+                    </section>
+                  )}
                   <section className="spacer my-3"></section>
                   <React.Fragment>
                     {fileToCompress && allFilesContainer}

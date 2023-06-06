@@ -16,9 +16,8 @@ const Resizer = (): JSX.Element => {
           <p className="text-muted">Scale your images</p>
         </section>
 
-        {/* <section className="conversion-area d-flex w-100 align-items-center justify-content-center m-auto"> */}
           <AppImageResizer></AppImageResizer>
-        {/* </section> */}
+
       </AppLayout>
     </React.Fragment>
   );
