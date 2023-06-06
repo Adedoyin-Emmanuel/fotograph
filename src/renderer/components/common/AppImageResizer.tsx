@@ -6,6 +6,7 @@ import {
   faRotateRight,
   faRotateLeft,
   faXmark,
+  faTrashCanArrowUp,
 } from '@fortawesome/free-solid-svg-icons';
 import ReactCrop, { type Crop } from 'react-image-crop';
 import { OverlayTrigger, Tooltip } from 'react-bootstrap';
@@ -315,6 +316,11 @@ const AppImageResizer: React.FC = (): JSX.Element => {
     fileReader.readAsArrayBuffer(file);
   };
 
+  const handleClearArtBoard = () => {
+    setImageURL(undefined);
+    setImageLoaded(false);
+  };
+
   return (
     <React.Fragment>
       <form className="app-image-resizer w-100 row">
@@ -389,6 +395,22 @@ const AppImageResizer: React.FC = (): JSX.Element => {
                       icon={faXmark}
                       size="1x"
                       className="text-danger"
+                    />
+                  </section>
+                </OverlayTrigger>
+
+                <OverlayTrigger
+                  placement="bottom"
+                  overlay={renderTooltip('Clear Artboard')}
+                >
+                  <section
+                    className="cancel-icon brand-tooltip-color p-1 rounded shadow-sm rotate-icons d-flex align-items-center justify-content-center"
+                    onClick={handleClearArtBoard}
+                  >
+                    <FontAwesomeIcon
+                      icon={faTrashCanArrowUp}
+                      size="1x"
+                      className="text-light"
                     />
                   </section>
                 </OverlayTrigger>
