@@ -58,29 +58,29 @@ ipcMain.on('adjust-brightness', (event, prams: any) => {
 });
 
 /*listen for image-resize events in the renderer process*/
-ipcMain.on('resize-image', (event, prams: any) => {
-  const { file, height, width } = prams;
+ipcMain.on('resize-image', async (event, params) => {
+  const { file, height, width } = params;
   const buffer = Buffer.from(file, 'base64');
-  console.log(height);
-  console.log(width);
+
   if (parseInt(height) <= 0 || parseInt(width) <= 0) {
     event.sender.send('resize-image-error', '0-arguments');
     return;
   }
-  sharp(buffer)
-    .resize({
-      width: parseInt(width),
-      height: parseInt(height),
-      fit: 'inside',
-      withoutEnlargement: true,
-    })
-    .toBuffer()
-    .then((buffer: Buffer) => {
-      event.reply('image-resized', buffer);
-    })
-    .catch((error: string) => {
-      event.sender.send('resize-image-error', error);
-    });
+
+  try {
+    const resizedBuffer = await sharp(buffer)
+      .resize({
+        width: parseInt(width),
+        height: parseInt(height),
+        fit: 'inside',
+        withoutEnlargement: true,
+      })
+      .toBuffer();
+
+    event.reply('image-resized', resizedBuffer);
+  } catch (error: any) {
+    event.sender.send('resize-image-error', error.toString());
+  }
 });
 
 /*listen for image flip*/

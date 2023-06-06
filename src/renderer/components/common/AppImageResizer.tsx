@@ -8,31 +8,24 @@ import {
   faXmark,
 } from '@fortawesome/free-solid-svg-icons';
 import DemoImage from './../../../../assets/Emmanuel.png';
-import ReactCrop, {
-  type Crop,
-  type PixelCrop,
-  type PercentCrop,
-} from 'react-image-crop';
+import ReactCrop, { type Crop } from 'react-image-crop';
+import { OverlayTrigger, Tooltip } from 'react-bootstrap';
 
 interface AppImageResizerProps {}
-
-interface ImageAspectRatioProps {
-  height: number;
-  width: number;
-}
 
 const AppImageResizer: React.FC = (): JSX.Element => {
   const [crop, setCrop] = useState<Crop | any>();
   const imgRef = useRef<any>(null);
   const [imageURL, setImageURL] = useState<any>();
-  const [imageResizeMode, setImageResizeMode] = useState<string>('');
   const [imageHeight, setImageHeight] = useState<number>(0);
   const [imageWidth, setImageWidth] = useState<number>(0);
 
   const [imageLoaded, setImageLoaded] = useState(false);
 
+  const renderTooltip = (tooltipText: string) => (
+    <Tooltip id="tooltip">{tooltipText}</Tooltip>
+  );
   useEffect(() => {
-    // Add an event listener to the image to handle the load event
     const handleImageLoad = () => {
       setImageLoaded(true);
     };
@@ -42,7 +35,6 @@ const AppImageResizer: React.FC = (): JSX.Element => {
       imageElement.addEventListener('load', handleImageLoad);
     }
 
-    // Clean up the event listener when the component unmounts
     return () => {
       if (imageElement) {
         imageElement.removeEventListener('load', handleImageLoad);
@@ -59,13 +51,11 @@ const AppImageResizer: React.FC = (): JSX.Element => {
   ) => {
     const fileReader = new FileReader();
     const canvas = getCroppedCanvas();
-
     const croppedFile = await canvasToFile(canvas, 'cropped-image.png');
 
-    // Cast the croppedFile to Blob type
     const blob = croppedFile as Blob;
     const file = blob;
-    console.log(e.target.value);
+
     fileReader.onload = (event: any) => {
       const fileData = event.target.result;
       const values = {
@@ -78,8 +68,14 @@ const AppImageResizer: React.FC = (): JSX.Element => {
     fileReader.readAsArrayBuffer(file);
 
     window.electron.ipcRenderer.on('brightness-adjust-error', (event, data) => {
-      console.log('Error event');
-      console.log(event);
+      Swal.fire({
+        toast: true,
+        text: `Couldn't adjust image brightness`,
+        position: 'top-right',
+        icon: 'error',
+        showConfirmButton: false,
+        timer: 3000,
+      });
     });
     window.electron.ipcRenderer.on('image-brightned', (event: any, data) => {
       const imageBlob = new Blob([event], { type: 'image/png' });
@@ -100,10 +96,8 @@ const AppImageResizer: React.FC = (): JSX.Element => {
     const canvas = getCroppedCanvas();
     const croppedFile = await canvasToFile(canvas, 'cropped-image.png');
 
-    // Cast the croppedFile to Blob type
     const blob = croppedFile as Blob;
     const file = blob;
-    console.log(e.target.value);
 
     fileReader.onload = (event: any) => {
       const fileData = event.target.result;
@@ -117,11 +111,21 @@ const AppImageResizer: React.FC = (): JSX.Element => {
 
     fileReader.readAsArrayBuffer(file);
 
-    /*check if the main process returns a positive result*/
     window.electron.ipcRenderer.on('image-rotated', (event: any, data) => {
       const imageBlob = new Blob([event], { type: 'image/png' });
       const imageUrl = URL.createObjectURL(imageBlob);
       setImageURL(imageUrl);
+    });
+
+    window.electron.ipcRenderer.on('rotate-image-error', (event: any, data) => {
+      Swal.fire({
+        toast: true,
+        text: event || `Couldn't adjust image brightness`,
+        position: 'top-right',
+        icon: 'error',
+        showConfirmButton: false,
+        timer: 3000,
+      });
     });
   };
 
@@ -132,19 +136,12 @@ const AppImageResizer: React.FC = (): JSX.Element => {
   const handleCropComplete = async () => {
     const canvas = getCroppedCanvas();
     const croppedFile = await canvasToFile(canvas, 'cropped-image.png');
-
-    // Cast the croppedFile to Blob type
     const blob = croppedFile as Blob;
 
-    // Create a temporary anchor element
     const anchor = document.createElement('a');
     anchor.href = window.URL.createObjectURL(blob);
     anchor.download = 'cropped-image.png';
-
-    // Programmatically click the anchor element to initiate the download
     anchor.click();
-
-    // Clean up the temporary anchor element
     window.URL.revokeObjectURL(anchor.href);
   };
 
@@ -193,41 +190,10 @@ const AppImageResizer: React.FC = (): JSX.Element => {
     });
   };
 
-  const saveCroppedImage = (file: File, fileName: string) => {
-    const filePath = '/path/to/save/file.png';
-    const reader = new FileReader();
-    reader.onload = (event: any) => {
-      const fileData = event.target.result;
-      const values = {
-        files: fileData,
-        fileName: fileName,
-      };
-      window.electron.ipcRenderer.sendMessage('save-file', {
-        values,
-      });
-      reader.readAsArrayBuffer(file);
-    };
-
-    window.electron.ipcRenderer.once(
-      'save-file-response',
-      (event, response: any) => {
-        if (response.success) {
-          // File saved successfully
-          console.log('File saved:', response.filePath);
-        } else {
-          // Error saving file
-          console.error('Error saving file:', response.error);
-        }
-      }
-    );
-  };
-
   const handleFlip = async (direction: string) => {
     const fileReader = new FileReader();
     const canvas = getCroppedCanvas();
     const croppedFile = await canvasToFile(canvas, 'cropped-image.png');
-
-    // Cast the croppedFile to Blob type
     const blob = croppedFile as Blob;
     const file = blob;
 
@@ -237,28 +203,15 @@ const AppImageResizer: React.FC = (): JSX.Element => {
         file: fileData,
         direction: direction,
       };
+      const flipEvent =
+        direction === 'right' ? 'flip-right-success' : 'flip-left-success';
       window.electron.ipcRenderer.sendMessage('flip-image', values);
+      window.electron.ipcRenderer.on(flipEvent, (event: any, data) => {
+        const imageBlob = new Blob([event], { type: 'image/png' });
+        const imageUrl = URL.createObjectURL(imageBlob);
+        setImageURL(imageUrl);
+      });
     };
-
-    if (direction === 'right') {
-      window.electron.ipcRenderer.on(
-        'flip-right-success',
-        (event: any, data) => {
-          const imageBlob = new Blob([event], { type: 'image/png' });
-          const imageUrl = URL.createObjectURL(imageBlob);
-          setImageURL(imageUrl);
-        }
-      );
-    } else {
-      window.electron.ipcRenderer.on(
-        'flip-left-success',
-        (event: any, data) => {
-          const imageBlob = new Blob([event], { type: 'image/png' });
-          const imageUrl = URL.createObjectURL(imageBlob);
-          setImageURL(imageUrl);
-        }
-      );
-    }
 
     fileReader.readAsArrayBuffer(file);
   };
@@ -293,10 +246,9 @@ const AppImageResizer: React.FC = (): JSX.Element => {
     const fileReader = new FileReader();
     const canvas = getCroppedCanvas();
     const croppedFile = await canvasToFile(canvas, 'cropped-image.png');
-
-    // Cast the croppedFile to Blob type
     const blob = croppedFile as Blob;
     const file = blob;
+
     fileReader.onload = (event: any) => {
       const fileData = event.target.result;
       const values = {
@@ -304,41 +256,40 @@ const AppImageResizer: React.FC = (): JSX.Element => {
         width: width,
         height: height,
       };
-
       window.electron.ipcRenderer.sendMessage('resize-image', values);
     };
 
     fileReader.readAsArrayBuffer(file);
 
-    window.electron.ipcRenderer.on('image-resized', (event: any, data) => {
+    const handleImageResized = (event: any) => {
       const imageBlob = new Blob([event], { type: 'image/png' });
       const imageUrl = URL.createObjectURL(imageBlob);
       setImageURL(imageUrl);
-    });
+    };
 
-    window.electron.ipcRenderer.on('resize-image-error', (event, data) => {
+    const handleResizeImageError = (event: any, data: any) => {
       console.log(event);
-      if (event === '0-arguments') {
-        Swal.fire({
-          toast: true,
-          text: 'Width or Height cannot be 0',
-          position: 'top-right',
-          icon: 'error',
-          showConfirmButton: false,
-          timer: 3000,
-        });
-      } else {
-        Swal.fire({
-          toast: true,
-          text: 'Resize Error',
-          position: 'top-right',
-          icon: 'error',
-          showConfirmButton: false,
-          timer: 3000,
-        });
-      }
-    });
+      const errorMessage =
+        event === '0-arguments'
+          ? 'Width or Height cannot be 0'
+          : 'Resize Error';
+      Swal.fire({
+        toast: true,
+        text: errorMessage,
+        position: 'top-right',
+        icon: 'error',
+        showConfirmButton: false,
+        timer: 3000,
+      });
+    };
+
+    window.electron.ipcRenderer.on('image-resized', handleImageResized);
+    window.electron.ipcRenderer.on(
+      'resize-image-error',
+      handleResizeImageError
+    );
   };
+
   const legitImageURL = imageURL ? imageURL : DemoImage;
   return (
     <React.Fragment>
@@ -384,39 +335,54 @@ const AppImageResizer: React.FC = (): JSX.Element => {
                 Rotate and Flip
               </p>
             </section>
-            <section className="rotate-flip-icons d-flex align-items-center justify-content-between w-100 my-2">
-              <section
-                className="rotate-icon-left brand-tooltip-color p-1 rounded shadow-sm rotate-icons d-flex align-items-center justify-content-center"
-                onClick={handleFlipLeft}
+            <section className="rotate-flip-icons d-flex align-items-center justify-content-between w-100 my-3">
+              <OverlayTrigger
+                placement="bottom"
+                overlay={renderTooltip('Flip image left')}
               >
-                <FontAwesomeIcon
-                  icon={faRotateLeft}
-                  size="1x"
-                  className="text-light"
-                />
-              </section>
+                <section
+                  className="rotate-icon-left brand-tooltip-color p-1 rounded shadow-sm rotate-icons d-flex align-items-center justify-content-center"
+                  onClick={handleFlipLeft}
+                >
+                  <FontAwesomeIcon
+                    icon={faRotateLeft}
+                    size="1x"
+                    className="text-light"
+                  />
+                </section>
+              </OverlayTrigger>
 
-              <section
-                className="cancel-icon brand-tooltip-color p-1 rounded shadow-sm rotate-icons d-flex align-items-center justify-content-center"
-                onClick={handleCancelClick}
+              <OverlayTrigger
+                placement="bottom"
+                overlay={renderTooltip('Reset ')}
               >
-                <FontAwesomeIcon
-                  icon={faXmark}
-                  size="1x"
-                  className="text-danger"
-                />
-              </section>
+                <section
+                  className="cancel-icon brand-tooltip-color p-1 rounded shadow-sm rotate-icons d-flex align-items-center justify-content-center"
+                  onClick={handleCancelClick}
+                >
+                  <FontAwesomeIcon
+                    icon={faXmark}
+                    size="1x"
+                    className="text-danger"
+                  />
+                </section>
+              </OverlayTrigger>
 
-              <section
-                className="rotate-icon-right brand-tooltip-color p-1 rounded shadow-sm rotate-icons d-flex align-items-center justify-content-center"
-                onClick={handleFlipRight}
+              <OverlayTrigger
+                placement="bottom"
+                overlay={renderTooltip('Flip image right')}
               >
-                <FontAwesomeIcon
-                  icon={faRotateRight}
-                  size="1x"
-                  className="text-light"
-                />
-              </section>
+                <section
+                  className="rotate-icon-right brand-tooltip-color p-1 rounded shadow-sm rotate-icons d-flex align-items-center justify-content-center"
+                  onClick={handleFlipRight}
+                >
+                  <FontAwesomeIcon
+                    icon={faRotateRight}
+                    size="1x"
+                    className="text-light"
+                  />
+                </section>
+              </OverlayTrigger>
             </section>
 
             <section className="rotate-flip-straightening my-3">
@@ -478,4 +444,3 @@ const AppImageResizer: React.FC = (): JSX.Element => {
 };
 
 export default AppImageResizer;
-// onComplete?: (crop: PixelCrop, percentageCrop: PercentCrop) => void;
