@@ -458,7 +458,7 @@ const AppImageResizer: React.FC = (): JSX.Element => {
 
         <section className="app-image-resizer-image col-7 d-flex align-items-center justify-content-center photo-editor rounded-3 mx-5">
           {!imageURL && (
-            <section className="file-zone-text my-3">
+            <section className="file-zone-text my-5">
               <label className="brand-primary-color btn text-light border-0 btn-lg text-center brand-small-text click-to-upload text-capitalize">
                 <input
                   type="file"
