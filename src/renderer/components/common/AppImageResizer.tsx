@@ -51,7 +51,10 @@ const AppImageResizer: React.FC = (): JSX.Element => {
   ) => {
     const fileReader = new FileReader();
     const canvas = getCroppedCanvas();
-    const croppedFile = await canvasToFile(canvas, 'cropped-image.png');
+    const croppedFile = await canvasToFile(
+      canvas,
+      'fotograph-cropped-image.png'
+    );
 
     const blob = croppedFile as Blob;
     const file = blob;
@@ -94,7 +97,10 @@ const AppImageResizer: React.FC = (): JSX.Element => {
   ) => {
     const fileReader = new FileReader();
     const canvas = getCroppedCanvas();
-    const croppedFile = await canvasToFile(canvas, 'cropped-image.png');
+    const croppedFile = await canvasToFile(
+      canvas,
+      'fotograph-cropped-image.png'
+    );
 
     const blob = croppedFile as Blob;
     const file = blob;
@@ -135,7 +141,10 @@ const AppImageResizer: React.FC = (): JSX.Element => {
 
   const handleCropComplete = async () => {
     const canvas = getCroppedCanvas();
-    const croppedFile = await canvasToFile(canvas, 'cropped-image.png');
+    const croppedFile = await canvasToFile(
+      canvas,
+      'fotograph-cropped-image.png'
+    );
     const blob = croppedFile as Blob;
 
     const anchor = document.createElement('a');
@@ -193,7 +202,10 @@ const AppImageResizer: React.FC = (): JSX.Element => {
   const handleFlip = async (direction: string) => {
     const fileReader = new FileReader();
     const canvas = getCroppedCanvas();
-    const croppedFile = await canvasToFile(canvas, 'cropped-image.png');
+    const croppedFile = await canvasToFile(
+      canvas,
+      'fotograph-cropped-image.png'
+    );
     const blob = croppedFile as Blob;
     const file = blob;
 
@@ -255,7 +267,10 @@ const AppImageResizer: React.FC = (): JSX.Element => {
   ) => {
     const fileReader = new FileReader();
     const canvas = getCroppedCanvas();
-    const croppedFile = await canvasToFile(canvas, 'cropped-image.png');
+    const croppedFile = await canvasToFile(
+      canvas,
+      'fotograph-cropped-image.png'
+    );
     const blob = croppedFile as Blob;
     const file = blob;
 
