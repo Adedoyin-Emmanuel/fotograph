@@ -7,10 +7,10 @@ import {
   faRotateLeft,
   faXmark,
 } from '@fortawesome/free-solid-svg-icons';
-import DemoImage from './../../../../assets/Emmanuel.png';
 import ReactCrop, { type Crop } from 'react-image-crop';
 import { OverlayTrigger, Tooltip } from 'react-bootstrap';
-
+import DemoImage from './../../../../assets/Emmanuel.png';
+import db from 'renderer/backend/local-storage/db';
 interface AppImageResizerProps {}
 
 const AppImageResizer: React.FC = (): JSX.Element => {
@@ -28,6 +28,8 @@ const AppImageResizer: React.FC = (): JSX.Element => {
   useEffect(() => {
     const handleImageLoad = () => {
       setImageLoaded(true);
+      setImageHeight(imgRef.current.height);
+      setImageWidth(imgRef.current.width);
     };
 
     const imageElement = imgRef.current;
@@ -38,12 +40,14 @@ const AppImageResizer: React.FC = (): JSX.Element => {
     return () => {
       if (imageElement) {
         imageElement.removeEventListener('load', handleImageLoad);
-        try {
-          setImageHeight(imgRef.current.height);
-          setImageWidth(imgRef.current.width);
-        } catch (error: any) {}
+        // try {
+        //   console.log(imageElement.current.height);
+        //   console.log(imageElement.current.width);
+        // } catch (error: any) {}
       }
     };
+
+    console.log(imgRef);
   }, [imageLoaded]);
 
   const handleImageBrightnessChange = async (
@@ -86,7 +90,7 @@ const AppImageResizer: React.FC = (): JSX.Element => {
 
   /*we reset the image to normal and remove all operations */
   const handleCancelClick = () => {
-    imgRef.current.src = DemoImage;
+    setImageURL(db.get('FOTOGRAPH_TEMP_BLOB'));
   };
 
   const handleImageRotationAngleChange = async (
@@ -239,6 +243,16 @@ const AppImageResizer: React.FC = (): JSX.Element => {
     setImageWidth(inputValue);
   };
 
+  const arrayBufferToDataURL = (arrayBuffer: any) => {
+    const uint8Array = new Uint8Array(arrayBuffer);
+    let binaryString = '';
+    for (let i = 0; i < uint8Array.length; i++) {
+      binaryString += String.fromCharCode(uint8Array[i]);
+    }
+    const base64String = btoa(binaryString);
+    const dataURL = `data:image/png;base64,${base64String}`;
+    return dataURL;
+  };
   const handleImageResize = async (
     width: number = imageWidth,
     height: number = imageHeight
@@ -290,155 +304,193 @@ const AppImageResizer: React.FC = (): JSX.Element => {
     );
   };
 
-  const legitImageURL = imageURL ? imageURL : DemoImage;
+  const handleFileUpload = (e: any) => {
+    e.preventDefault();
+
+    const file = e?.target.files[0];
+    const fileReader = new FileReader();
+
+    fileReader.onload = (event: any) => {
+      const fileData = event.target.result;
+      const blob = arrayBufferToDataURL(fileData);
+      setImageURL(blob);
+      db.create('FOTOGRAPH_TEMP_BLOB', blob);
+    };
+
+    fileReader.readAsArrayBuffer(file);
+  };
+
   return (
     <React.Fragment>
-      <section className="app-image-resizer w-100 row ">
-        <section className="app-image-resizer-control-panel col-3">
-          <section className="resize-section mx-4">
-            <section className="image-height-width row my-3">
-              <Form.Group controlId="image-height" className="col-6">
-                <Form.Control
-                  type="number"
-                  defaultValue={imageLoaded ? imgRef.current.height : ''}
-                  placeholder="height"
-                  className="brand-small-text-2 height-input brand-white-text"
-                  onChange={handleImageHeightChange}
-                />
-              </Form.Group>
-
-              <Form.Group controlId="image-width" className="col-6">
-                <Form.Control
-                  type="number"
-                  defaultValue={imageLoaded ? imgRef.current.width : ''}
-                  name="image-width"
-                  placeholder="width"
-                  className="brand-small-text-2 width-input brand-white-text"
-                  onChange={handleImageWidthChange}
-                ></Form.Control>
-              </Form.Group>
-            </section>
-
-            <section className="image-aspect-ratio w-100">
-              <Button
-                className="text-capitalize brand-small-text-2 btn-lg brand-primary-color border-0 my-3"
-                onClick={handleResizeButtonClick}
-              >
-                scale images
-              </Button>
-            </section>
-          </section>
-
-          <section className="rotate-flip mx-4 my-5 d-flex  justify-content-around flex-column">
-            <section className="rotate-and-flip d-flex align-items-start justify-content-start">
-              <p className="text-start brand-white-text brand-small-text">
-                Rotate and Flip
-              </p>
-            </section>
-            <section className="rotate-flip-icons d-flex align-items-center justify-content-between w-100 my-3">
-              <OverlayTrigger
-                placement="bottom"
-                overlay={renderTooltip('Flip image left')}
-              >
-                <section
-                  className="rotate-icon-left brand-tooltip-color p-1 rounded shadow-sm rotate-icons d-flex align-items-center justify-content-center"
-                  onClick={handleFlipLeft}
-                >
-                  <FontAwesomeIcon
-                    icon={faRotateLeft}
-                    size="1x"
-                    className="text-light"
+      <form className="app-image-resizer w-100 row">
+        {imageURL && (
+          <section className="app-image-resizer-control-panel col-3">
+            <section className="resize-section mx-4">
+              <section className="image-height-width row my-3">
+                <Form.Group controlId="image-height" className="col-6">
+                  <Form.Control
+                    type="number"
+                    defaultValue={imageLoaded && imgRef.current.height}
+                    placeholder="height"
+                    className="brand-small-text-2 height-input brand-white-text"
+                    onChange={handleImageHeightChange}
                   />
-                </section>
-              </OverlayTrigger>
+                </Form.Group>
 
-              <OverlayTrigger
-                placement="bottom"
-                overlay={renderTooltip('Reset ')}
-              >
-                <section
-                  className="cancel-icon brand-tooltip-color p-1 rounded shadow-sm rotate-icons d-flex align-items-center justify-content-center"
-                  onClick={handleCancelClick}
-                >
-                  <FontAwesomeIcon
-                    icon={faXmark}
-                    size="1x"
-                    className="text-danger"
-                  />
-                </section>
-              </OverlayTrigger>
+                <Form.Group controlId="image-width" className="col-6">
+                  <Form.Control
+                    type="number"
+                    defaultValue={imageLoaded && imgRef.current.width}
+                    name="image-width"
+                    placeholder="width"
+                    className="brand-small-text-2 width-input brand-white-text"
+                    onChange={handleImageWidthChange}
+                  ></Form.Control>
+                </Form.Group>
+              </section>
 
-              <OverlayTrigger
-                placement="bottom"
-                overlay={renderTooltip('Flip image right')}
-              >
-                <section
-                  className="rotate-icon-right brand-tooltip-color p-1 rounded shadow-sm rotate-icons d-flex align-items-center justify-content-center"
-                  onClick={handleFlipRight}
-                >
-                  <FontAwesomeIcon
-                    icon={faRotateRight}
-                    size="1x"
-                    className="text-light"
-                  />
-                </section>
-              </OverlayTrigger>
-            </section>
-
-            <section className="rotate-flip-straightening my-3">
-              <Form.Group>
-                <Form.Label className="text-capitalize brand-small-text-2 text-muted">
-                  Rotation
-                </Form.Label>
-                <Form.Range
-                  className="custom-range"
-                  onChange={(e) => {
-                    handleImageRotationAngleChange(e);
-                  }}
-                  defaultValue={0}
-                  min={-360}
-                  max={360}
-                  step={90}
-                />
-              </Form.Group>
-
-              <Form.Group>
-                <Form.Label className="text-capitalize brand-small-text-2 text-muted">
-                  brightness
-                </Form.Label>
-                <Form.Range
-                  className="custom-range"
-                  onChange={(e) => {
-                    handleImageBrightnessChange(e);
-                  }}
-                  min={0}
-                  defaultValue={1}
-                  step={0.01}
-                  max={5}
-                />
-              </Form.Group>
-
-              <section className="app-image-resizer-action-buttons d-flex align-items-center justify-content-start my-4">
+              <section className="image-aspect-ratio w-100">
                 <Button
-                  className="text-capitalize brand-small-text-2 btn-lg brand-primary-color border-0"
-                  onClick={handleClick}
+                  className="text-capitalize brand-small-text-2 btn-lg brand-primary-color border-0 my-3"
+                  onClick={handleResizeButtonClick}
                 >
-                  save changes
+                  scale images
                 </Button>
               </section>
             </section>
+
+            <section className="rotate-flip mx-4 my-5 d-flex  justify-content-around flex-column">
+              <section className="rotate-and-flip d-flex align-items-start justify-content-start">
+                <p className="text-start brand-white-text brand-small-text">
+                  Rotate and Flip
+                </p>
+              </section>
+              <section className="rotate-flip-icons d-flex align-items-center justify-content-between w-100 my-3">
+                <OverlayTrigger
+                  placement="bottom"
+                  overlay={renderTooltip('Flip image left')}
+                >
+                  <section
+                    className="rotate-icon-left brand-tooltip-color p-1 rounded shadow-sm rotate-icons d-flex align-items-center justify-content-center"
+                    onClick={handleFlipLeft}
+                  >
+                    <FontAwesomeIcon
+                      icon={faRotateLeft}
+                      size="1x"
+                      className="text-light"
+                    />
+                  </section>
+                </OverlayTrigger>
+
+                <OverlayTrigger
+                  placement="bottom"
+                  overlay={renderTooltip('Reset ')}
+                >
+                  <section
+                    className="cancel-icon brand-tooltip-color p-1 rounded shadow-sm rotate-icons d-flex align-items-center justify-content-center"
+                    onClick={handleCancelClick}
+                  >
+                    <FontAwesomeIcon
+                      icon={faXmark}
+                      size="1x"
+                      className="text-danger"
+                    />
+                  </section>
+                </OverlayTrigger>
+
+                <OverlayTrigger
+                  placement="bottom"
+                  overlay={renderTooltip('Flip image right')}
+                >
+                  <section
+                    className="rotate-icon-right brand-tooltip-color p-1 rounded shadow-sm rotate-icons d-flex align-items-center justify-content-center"
+                    onClick={handleFlipRight}
+                  >
+                    <FontAwesomeIcon
+                      icon={faRotateRight}
+                      size="1x"
+                      className="text-light"
+                    />
+                  </section>
+                </OverlayTrigger>
+              </section>
+
+              <section className="rotate-flip-straightening my-3">
+                <Form.Group>
+                  <Form.Label className="text-capitalize brand-small-text-2 text-muted">
+                    Rotation
+                  </Form.Label>
+                  <Form.Range
+                    className="custom-range"
+                    onChange={(e) => {
+                      handleImageRotationAngleChange(e);
+                    }}
+                    defaultValue={0}
+                    min={-360}
+                    max={360}
+                    step={90}
+                  />
+                </Form.Group>
+
+                <Form.Group>
+                  <Form.Label className="text-capitalize brand-small-text-2 text-muted">
+                    brightness
+                  </Form.Label>
+                  <Form.Range
+                    className="custom-range"
+                    onChange={(e) => {
+                      handleImageBrightnessChange(e);
+                    }}
+                    min={0}
+                    defaultValue={1}
+                    step={0.01}
+                    max={5}
+                  />
+                </Form.Group>
+
+                <section className="app-image-resizer-action-buttons d-flex align-items-center justify-content-start my-4">
+                  <Button
+                    className="text-capitalize brand-small-text-2 btn-lg brand-primary-color border-0"
+                    onClick={handleClick}
+                  >
+                    save changes
+                  </Button>
+                </section>
+              </section>
+            </section>
           </section>
-        </section>
+        )}
 
         <section className="app-image-resizer-image col-7 d-flex align-items-center justify-content-center photo-editor rounded-3 mx-5">
+          {!imageURL && (
+            <section className="file-zone-text my-3">
+              <label className="brand-primary-color btn text-light border-0 btn-lg text-center brand-small-text click-to-upload text-capitalize">
+                <input
+                  type="file"
+                  id="file_uploaded"
+                  name="files"
+                  className=""
+                  hidden
+                  onChange={(e: FormEvent) => {
+                    handleFileUpload(e);
+                  }}
+                />
+                Upload image
+              </label>{' '}
+            </section>
+          )}
           <ReactCrop crop={crop} onChange={(c) => setCrop(c)}>
-            <img src={legitImageURL} className="img-fluid" ref={imgRef} />
+            {imageURL ? (
+              <img src={imageURL} className="img-fluid" ref={imgRef} />
+            ) : (
+              <></>
+            )}
           </ReactCrop>
         </section>
         <section className="col-1"></section>
 
         <section className="spacer my-5 py-4"></section>
-      </section>
+      </form>
     </React.Fragment>
   );
 };
