@@ -15,7 +15,7 @@
 }
 
 .text-muted-layout {
-  color: #6C757D !important;
+  color: #6c757d !important;
 }
 
 .icons-container > .icons {
@@ -135,6 +135,10 @@ body {
 .rotate-icons:hover,
 .rotate-icons:focus {
   background: var(--brand-primary-light-color) !important;
+}
+
+.rotate-icons:focus body {
+  overflow: hidden !important;
 }
 
 .custom-range::-webkit-slider-thumb {

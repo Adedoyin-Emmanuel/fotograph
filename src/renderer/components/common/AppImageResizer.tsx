@@ -384,7 +384,7 @@ const AppImageResizer: React.FC = (): JSX.Element => {
               </section>
               <section className="rotate-flip-icons d-flex align-items-center justify-content-between w-100 my-3">
                 <OverlayTrigger
-                  placement="bottom"
+                  placement="top"
                   overlay={renderTooltip('Flip image left')}
                 >
                   <section
@@ -400,7 +400,7 @@ const AppImageResizer: React.FC = (): JSX.Element => {
                 </OverlayTrigger>
 
                 <OverlayTrigger
-                  placement="bottom"
+                  placement="top"
                   overlay={renderTooltip('Reset ')}
                 >
                   <section
@@ -416,7 +416,7 @@ const AppImageResizer: React.FC = (): JSX.Element => {
                 </OverlayTrigger>
 
                 <OverlayTrigger
-                  placement="bottom"
+                  placement="top"
                   overlay={renderTooltip('Clear Artboard')}
                 >
                   <section
@@ -432,7 +432,7 @@ const AppImageResizer: React.FC = (): JSX.Element => {
                 </OverlayTrigger>
 
                 <OverlayTrigger
-                  placement="bottom"
+                  placement="top"
                   overlay={renderTooltip('Flip image right')}
                 >
                   <section
