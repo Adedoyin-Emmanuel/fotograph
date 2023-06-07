@@ -108,7 +108,8 @@ body {
   border-radius: 3px;
 }
 
-.app-file-drop-zone {
+.app-file-drop-zone,
+.app-image-preview {
   border: 2px dashed var(--brand-primary-light-color);
   height: 30vh !important;
 }
