@@ -97,6 +97,7 @@ const Remover = (): JSX.Element => {
         >
           <BgRemoverContext.Consumer>
             {(context) => {
+              context && setContextValues(context);
               return (
                 <>
                   <section className="convert-container d-flex align-items-start justify-content-start flex-column mx-4">

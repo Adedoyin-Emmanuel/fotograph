@@ -34,3 +34,8 @@ export function retrieveFileExtension(fileName: string): string {
   const fileExtension = fileName.split('.').pop();
   return fileExtension || '';
 }
+
+export function retriveFileName(fileName: string): string {
+  const strippedFilename = fileName.replace(/\.[^/.]+$/, '');
+  return strippedFilename;
+}

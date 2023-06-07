@@ -1,0 +1,2 @@
+export const CLIPDROP_API_KEY =
+  '3ac5c163b0dcfff7ff7349fa2d2dcb810f4aae1375d3b8df38a0a6abe31c4fe5f7ef7d2f15432cc1cead52d26646cdc4';
