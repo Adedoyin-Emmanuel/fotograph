@@ -108,12 +108,14 @@ body {
   border-radius: 3px;
 }
 
-.app-file-drop-zone,
-.app-image-preview {
-  border: 2px dashed var(--brand-primary-light-color);
+.app-file-drop-zone {
   height: 30vh !important;
+  border: 2px dashed var(--brand-primary-light-color);
 }
 
+.app-image-preview {
+  border: 2px dashed var(--brand-primary-light-color);
+}
 .wave-animation {
   position: absolute;
   top: 50%;

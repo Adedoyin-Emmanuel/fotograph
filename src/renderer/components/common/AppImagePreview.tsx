@@ -17,17 +17,15 @@ const AppImagePreview = ({
         className={`app-image-preview ${className} d-flex align-items-center justify-content-around rounded-3 my-1 w-100 shadow-sm flex-column`}
       >
         <section className="text-prompt w-100 my-3">
-          <p className="brand-white-text brand-small-text text-capitalize text-start px-3">
+          <p className="brand-white-text fs-5 fw-bold text-capitalize text-center">
             {textPrompt && textPrompt}
           </p>
         </section>
-        <section className="image-section w-100 d-flex align-items-center justify-content-center">
+        <section className="image-section w-100 d-flex align-items-center justify-content-center my-4">
           <img
             src={imageSource && imageSource}
             alt="generated-with-ai"
             className="img-fluid"
-            width="100"
-            height="100"
           />
         </section>
       </section>
