@@ -4,11 +4,13 @@ import Swal from 'sweetalert2';
 import saveAs from 'file-saver';
 import * as SEARCH_API from './search-images-api-key';
 import db from 'renderer/backend/local-storage/db';
-const safeSearch = false;
 
 interface fetchImagesProp {
   searchData?: any;
 }
+
+let safeSearch = db.get('FOTOGRAPH_SAFE_SEARCH_VALUE') == 'true' ? true : false;
+let maxNumberOfDownloads = parseInt(db.get('FOTOGRAPH_MAX_DOWNLOAD_PICTURES'));
 
 /* Fetching Images from the Unsplash API */
 export const fetchImages = (searchData: fetchImagesProp) => {
@@ -22,7 +24,7 @@ export const fetchImages = (searchData: fetchImagesProp) => {
 /* Fetching Images from the Pixabay API */
 export const fetchImages2 = (searchData: fetchImagesProp) => {
   return $.ajax({
-    url: `https://pixabay.com/api/?key=${SEARCH_API.PIXABAY_API_KEY}&q=${searchData}&per_page=20`,
+    url: `https://pixabay.com/api/?key=${SEARCH_API.PIXABAY_API_KEY}&q=${searchData}&per_page=20&safesearch=${safeSearch}`,
     processData: false,
     contentType: false,
   });
@@ -59,7 +61,12 @@ export const handleImageDownload = (
   user: string,
   source: number
 ) => {
-  const totalImages = total; /*settings for user to limit bulk download*/
+  let totalImages = total; /*settings for user to limit bulk download*/
+  if (total > maxNumberOfDownloads) {
+    totalImages = maxNumberOfDownloads;
+  } else {
+    totalImages = total;
+  }
   let apiSource = source;
   let url = ``;
   let headers = {};

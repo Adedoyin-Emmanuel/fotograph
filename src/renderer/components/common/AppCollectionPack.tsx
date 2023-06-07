@@ -34,9 +34,10 @@ const AppCollectionPack = ({
   const navigateTo = useNavigate();
 
   const handleViewImageClick = (): void => {
-    navigateTo(`${id}?${total}`);
-    db.create('BADASS_IMAGE_TITLE', title);
-    db.create('BADASS_IMAGE_USER', user);
+    /* We would add this update later */
+    //navigateTo(`${id}?${total}`);
+    db.create('FOTOGRAPH_IMAGE_TITLE', title);
+    db.create('FOTOGRAPH_IMAGE_USER', user);
   };
 
   const handleDownloadClick = () => {};
