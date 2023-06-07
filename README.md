@@ -11,12 +11,12 @@ An Open Source Cross Platform Desktop Application For Image Manipulation
 ### Table Of Content
 
 - [FotoGraph](#fotograph)
-  - [Table Of Content](#table-of-content)
-    - [Introduction](#introduction)
-    - [Please Note](#please-note)
-    - [Images](#images)
-    - [Technologies](#technologies)
-    - [Author](#author)
+    - [Table Of Content](#table-of-content)
+      - [Introduction](#introduction)
+      - [Please Note](#please-note)
+      - [Images](#images)
+      - [Technologies](#technologies)
+      - [Author](#author)
 
 #### Introduction
 
@@ -47,6 +47,14 @@ Here is what the final product would look like :)
 
 ![Image Resizer ](/assets/screenshots/image-resizer.png)
 ![Image Resizer ](/assets/screenshots/image-resizer-2.png)
+
+![Image Background Remover](/assets/screenshots/image-background-remover.png)
+![Image Background Remover](/assets/screenshots/image-background-remover-2.png)
+
+![Image Generator](/assets/screenshots/image-generator.png)
+![Image Generator](/assets/screenshots/image-generator-2.png)
+![Image Generator](/assets/screenshots/image-generator-3.png)
+![Image Generator](/assets/screenshots/image-generator-4.png)
 
 ![Support FotoGraph ](/assets/screenshots/support-project.png)
 
