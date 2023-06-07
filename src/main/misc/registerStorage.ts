@@ -6,5 +6,11 @@ ipcMain.on('get-storage', (event, args) => {
 });
 
 ipcMain.on('set-storage', (event, args) => {
-  event.reply('set-storage', store.set(args));
+  store.set(args);
+  event.reply('storage-set-succesfully');
+});
+
+ipcMain.on('clear-storage', (event) => {
+  store.clear();
+  event.reply('storage-cleared-succesfully');
 });

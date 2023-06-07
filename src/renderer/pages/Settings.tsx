@@ -1,18 +1,85 @@
-import React from 'react';
+import React, { useRef } from 'react';
 import AppLayout from 'renderer/components/layouts/AppLayout';
 import AppHeader from 'renderer/components/common/Header';
 import AppButton from 'renderer/components/common/Button';
 import Swal from 'sweetalert2';
 import { Form } from 'react-bootstrap';
+import { useNavigate } from 'react-router-dom';
+import db from 'renderer/backend/local-storage/db';
+
 const Settings = (): JSX.Element => {
-  const handleRestoreFactorySettingClick = () => {};
-  const handleMaxPictureToDownload = () =>{
+  const navigateTo = useNavigate();
+  let safeSearchValue = db.get('FOTOGRAPH_SAFE_SEARCH_VALUE');
+  let safeSearchValueCheck = safeSearchValue == 'true' ? true : false;
+  const safeSearchToggleRef = useRef<any>();
+  const inputRef = useRef<any>();
 
+  const handleRestoreFactorySettingClick = () => {
+    window.electron.ipcRenderer.sendMessage('clear-storage', {});
+
+    window.electron.ipcRenderer.on(
+      'storage-cleared-succesfully',
+      (event, args) => {
+        window.electron.ipcRenderer.sendMessage('show-notification', {
+          title: 'Storage Cleared',
+          text: 'Storage has been successfully cleared!',
+        });
+
+        setTimeout(() => {
+          navigateTo('/');
+        }, 1000);
+      }
+    );
+  };
+  const handleMaxPictureToDownload = () => {
+    let maxPictures = inputRef.current.value;
+    db.create('FOTOGRAPH_MAX_DOWNLOAD_PICTURES', maxPictures);
+    Swal.fire({
+      toast: true,
+      text: 'Settings updated successfully!',
+      timer: 3000,
+      showConfirmButton: false,
+      position: 'top-right',
+      icon: 'success',
+    });
+
+    setTimeout(() => {
+      window.electron.ipcRenderer.sendMessage('show-notification', {
+        title: 'Settings',
+        text: 'Settings updated successfully!',
+      });
+    }, 4000);
+  };
+  const turnOnSafeSearch = () => {
+    if (safeSearchToggleRef.current.checked) {
+      //check if the value is in the database, then update it
+      if (db.get('FOTOGRAPH_SAFE_SEARCH_VALUE')) {
+        db.update('FOTOGRAPH_SAFE_SEARCH_VALUE', 'true');
+
+        window.electron.ipcRenderer.sendMessage('show-notification', {
+          title: 'Safe Search',
+          text: 'Save search settings updated!',
+        });
+      } else {
+        db.create('FOTOGRAPH_SAFE_SEARCH_VALUE', 'true');
+
+        window.electron.ipcRenderer.sendMessage('show-notification', {
+          title: 'Safe Search',
+          text: 'Safe search turned on!',
+        });
+      }
+    } else {
+      if (db.get('FOTOGRAPH_SAFE_SEARCH_VALUE')) {
+        db.update('FOTOGRAPH_SAFE_SEARCH_VALUE', 'false');
+
+        window.electron.ipcRenderer.sendMessage('show-notification', {
+          title: 'Safe Search',
+          text: 'Save search not turned on!',
+        });
+      }
+    }
   };
 
-  const handleSafeSearchToggle = () =>{
-
-  };
   return (
     <React.Fragment>
       <AppLayout
@@ -27,7 +94,10 @@ const Settings = (): JSX.Element => {
             clear the data stored by{' '}
             <span className="brand-primary-text fw-bold">Fotograph</span>
           </p>
-          <AppButton className="brand-button-outline width-toggle-1">
+          <AppButton
+            className="brand-button-outline width-toggle-1"
+            onClick={handleRestoreFactorySettingClick}
+          >
             restore factory settings
           </AppButton>
 
@@ -44,11 +114,15 @@ const Settings = (): JSX.Element => {
                 placeholder="max amount"
                 className="brand-small-text-2 width-input brand-white-text p-3"
                 defaultValue={'30'}
+                ref={inputRef}
               ></Form.Control>
             </Form.Group>
           </section>
-          <AppButton className="brand-button-outline width-toggle-1">
-            restore factory settings
+          <AppButton
+            className="brand-button-outline width-toggle-1"
+            onClick={handleMaxPictureToDownload}
+          >
+            update
           </AppButton>
           <section className="spacer my-3 py-2"></section>
           <section className="safe-searching">
@@ -63,7 +137,9 @@ const Settings = (): JSX.Element => {
               type="switch"
               id="custom-switch"
               className="fs-4"
-              checked={true}
+              onChange={turnOnSafeSearch}
+              defaultChecked={safeSearchValueCheck}
+              ref={safeSearchToggleRef}
             ></Form.Check>
           </section>
         </section>
