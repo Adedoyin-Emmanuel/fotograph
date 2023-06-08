@@ -12,8 +12,10 @@ export const setData = (data: object): void => {
 };
 
 export const getData = async (dataToGet: string): Promise<unknown> => {
+  let dataGotten: any;
   const dataPromise = new Promise((resolve) => {
     window.electron.ipcRenderer.once('get-storage', (args) => {
+      dataGotten = args;
       resolve(args);
     });
   });

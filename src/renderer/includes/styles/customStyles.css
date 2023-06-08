@@ -22,7 +22,11 @@
   --brand-primary-light-color: #48cae4;
   --brand-primary-light-color-2: #90e0ef;
   --brand-primary-light-color-3: #caf0f8;
-
+  --brand-gradient-color: linear-gradient(
+    85.28deg,
+    var(--brand-primary-dark-color) 4.09%,
+    #000000 98%
+  );
   --brand-secondary-color: #16679a;
   --brand-secondary-color-2: #1c558e;
 
@@ -39,6 +43,9 @@
 
 /*Brand primary utility classes*/
 
+body {
+  background: var(--brand-primary-dark-color);
+}
 .brand-primary-color {
   background: var(--brand-primary-light-color) !important;
 }
@@ -244,10 +251,6 @@
 
 .wave {
   transform: translateY(50px);
-}
-
-body {
-  background: var(--brand-primary-dark-color);
 }
 
 .width-toggle-dash {

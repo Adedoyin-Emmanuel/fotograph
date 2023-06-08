@@ -1,16 +1,16 @@
-import $ from 'jquery';
+import $, { data } from 'jquery';
 import JSZip from 'jszip';
 import Swal from 'sweetalert2';
 import saveAs from 'file-saver';
 import * as SEARCH_API from './search-images-api-key';
 import db from 'renderer/backend/local-storage/db';
-
 interface fetchImagesProp {
   searchData?: any;
 }
 
 let safeSearch = db.get('FOTOGRAPH_SAFE_SEARCH_VALUE') == 'true' ? true : false;
-let maxNumberOfDownloads = parseInt(db.get('FOTOGRAPH_MAX_DOWNLOAD_PICTURES'));
+let maxNumberOfDownloads =
+  parseInt(db.get('FOTOGRAPH_MAX_DOWNLOAD_PICTURES')) || 0;
 
 /* Fetching Images from the Unsplash API */
 export const fetchImages = (searchData: fetchImagesProp) => {
@@ -62,11 +62,12 @@ export const handleImageDownload = (
   source: number
 ) => {
   let totalImages = total; /*settings for user to limit bulk download*/
-  if (total > maxNumberOfDownloads) {
+  if (total > maxNumberOfDownloads && maxNumberOfDownloads > 0) {
     totalImages = maxNumberOfDownloads;
   } else {
     totalImages = total;
   }
+
   let apiSource = source;
   let url = ``;
   let headers = {};
@@ -115,12 +116,23 @@ export const handleImageDownload = (
       }
 
       images.push(...customData);
+      console.log(totalImages);
+      console.log(images.length);
       if (images.length == totalImages) {
         //alert the user the download would start soon
         window.electron.ipcRenderer.sendMessage('show-notification', {
           title: 'Download',
           text: 'Download starting soon!',
           type: 'success',
+        });
+
+        Swal.fire({
+          toast: true,
+          text: `Don't leave this page`,
+          icon: 'info',
+          showConfirmButton: false,
+          position: 'top-right',
+          timer: 3000,
         });
 
         const zip = new JSZip();

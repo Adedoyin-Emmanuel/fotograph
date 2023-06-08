@@ -136,7 +136,7 @@ const Remover = (): JSX.Element => {
                           className="width-toggle brand-small-text text-capitalize"
                           onClick={handleRemoveBg}
                         >
-                          convert
+                          remove
                         </AppButton>
                       </section>
                     )}

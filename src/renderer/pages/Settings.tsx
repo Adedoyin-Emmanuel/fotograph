@@ -6,6 +6,7 @@ import Swal from 'sweetalert2';
 import { Form } from 'react-bootstrap';
 import { useNavigate } from 'react-router-dom';
 import db from 'renderer/backend/local-storage/db';
+import { setData } from 'renderer/backend/apis/electron-storage/db';
 
 const Settings = (): JSX.Element => {
   const navigateTo = useNavigate();
@@ -16,7 +17,7 @@ const Settings = (): JSX.Element => {
 
   const handleRestoreFactorySettingClick = () => {
     window.electron.ipcRenderer.sendMessage('clear-storage', {});
-
+    db.destroy();
     window.electron.ipcRenderer.on(
       'storage-cleared-succesfully',
       (event, args) => {
@@ -34,21 +35,17 @@ const Settings = (): JSX.Element => {
   const handleMaxPictureToDownload = () => {
     let maxPictures = inputRef.current.value;
     db.create('FOTOGRAPH_MAX_DOWNLOAD_PICTURES', maxPictures);
-    Swal.fire({
-      toast: true,
+    setData({
+      FOTOGRAPH_MAX_DOWNLOAD_PICTURES: parseInt(maxPictures),
+    });
+    window.electron.ipcRenderer.sendMessage('show-notification', {
+      title: 'Settings',
       text: 'Settings updated successfully!',
-      timer: 3000,
-      showConfirmButton: false,
-      position: 'top-right',
-      icon: 'success',
     });
 
     setTimeout(() => {
-      window.electron.ipcRenderer.sendMessage('show-notification', {
-        title: 'Settings',
-        text: 'Settings updated successfully!',
-      });
-    }, 4000);
+      location.reload();
+    }, 1500);
   };
   const turnOnSafeSearch = () => {
     if (safeSearchToggleRef.current.checked) {
@@ -113,7 +110,9 @@ const Settings = (): JSX.Element => {
                 type="number"
                 placeholder="max amount"
                 className="brand-small-text-2 width-input brand-white-text p-3"
-                defaultValue={'30'}
+                defaultValue={
+                  parseInt(db.get('FOTOGRAPH_MAX_DOWNLOAD_PICTURES')) || '30'
+                }
                 ref={inputRef}
               ></Form.Control>
             </Form.Group>

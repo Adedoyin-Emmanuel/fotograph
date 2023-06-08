@@ -55,7 +55,7 @@ const SearchImagesProvider = ({
             text: 'Error fetching images',
             icon: 'error',
             showConfirmButton: false,
-            position: 'top',
+            position: 'top-right',
             timer: 3000,
           });
         }
