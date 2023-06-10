@@ -1,5 +1,5 @@
 {
-  "description": "A foundation for scalable desktop apps",
+  "description": "FotoGraph is an innovative image manipulation software designed to enhance your development workflow.",
   "keywords": [
     "electron",
     "boilerplate",
@@ -9,20 +9,21 @@
     "sass",
     "webpack",
     "hot",
-    "reload"
+    "reload",
+    "Fotograph"
   ],
-  "homepage": "https://github.com/electron-react-boilerplate/electron-react-boilerplate#readme",
+  "homepage": "https://fotograph.vercel.app",
   "bugs": {
-    "url": "https://github.com/electron-react-boilerplate/electron-react-boilerplate/issues"
+    "url": "https://github.com/Adedoyin-Emmanuel/FotoGraph/issues"
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/electron-react-boilerplate/electron-react-boilerplate.git"
+    "url": "git+https://github.com/Adedoyin-Emmanuel/FotoGraph/"
   },
   "license": "MIT",
-  "author": "Electron React Boilerplate Maintainers <electronreactboilerplate@gmail.com> (https://electron-react-boilerplate.js.org)",
+  "author": "Adedoyin Emmanuel Adeniyi <adedoyine535@gmail.com> (https://fotograph.vercel.app)",
   "contributors": [
-    "Amila Welihinda <amilajack@gmail.com> (https://github.com/amilajack)"
+    "Adedoyin Emmanuel Adeniyi <adedoyine535@gmail.com@gmail.com> (https://github.com/Adedoyin-Emmanuel)"
   ],
   "main": "./src/main/main.ts",
   "scripts": {
@@ -184,8 +185,8 @@
     "webpack-merge": "^5.8.0"
   },
   "build": {
-    "productName": "ElectronReact",
-    "appId": "org.erb.ElectronReact",
+    "productName": "Fotograph",
+    "appId": "Fotograph",
     "asar": true,
     "asarUnpack": "**\\*.{node,dll}",
     "files": [
@@ -193,7 +194,7 @@
       "node_modules",
       "package.json"
     ],
-    "afterSign": ".erb/scripts/notarize.js",
+    "afterSign": ".erb/sFotographcripts/notarize.js",
     "mac": {
       "target": {
         "target": "default",
