@@ -182,7 +182,7 @@
   },
   "build": {
     "productName": "Fotograph",
-    "appId": "Fotograph",
+    "appId": ".app.vercel.fotograph",
     "asar": true,
     "asarUnpack": "**\\*.{node,dll}",
     "files": [
@@ -190,7 +190,7 @@
       "node_modules",
       "package.json"
     ],
-    "afterSign": ".erb/sFotographcripts/notarize.js",
+    "afterSign": ".erb/scripts/notarize.js",
     "mac": {
       "target": {
         "target": "default",
@@ -240,8 +240,8 @@
     ],
     "publish": {
       "provider": "github",
-      "owner": "electron-react-boilerplate",
-      "repo": "electron-react-boilerplate"
+      "owner": "Adedoyin Emmanuel Adeniyi",
+      "repo": ""
     }
   },
   "collective": {
@@ -258,6 +258,6 @@
     ],
     "logLevel": "quiet"
   },
-  "name": "fotograph",
+  "name": "FotoGraph",
   "version": "1.0.0"
 }
