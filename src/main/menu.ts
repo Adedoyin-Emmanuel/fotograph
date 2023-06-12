@@ -157,27 +157,29 @@ export default class MenuBuilder {
         {
           label: 'Learn More',
           click() {
-            shell.openExternal('https://electronjs.org');
+            shell.openExternal('https://fotograph.vercel.app');
           },
         },
         {
           label: 'Documentation',
           click() {
             shell.openExternal(
-              'https://github.com/electron/electron/tree/main/docs#readme'
+              'https://github.com/Adedoyin-Emmanuel/FotoGraph'
             );
           },
         },
         {
           label: 'Community Discussions',
           click() {
-            shell.openExternal('https://www.electronjs.org/community');
+            shell.openExternal('https://fotograph.vercel.app');
           },
         },
         {
           label: 'Search Issues',
           click() {
-            shell.openExternal('https://github.com/electron/electron/issues');
+            shell.openExternal(
+              'https://github.com/Adedoyin-Emmanuel/FotoGraph/issues'
+            );
           },
         },
       ],
@@ -254,7 +256,7 @@ export default class MenuBuilder {
           {
             label: 'About Fotograph',
             click() {
-              shell.openExternal('https://electronjs.org');
+              shell.openExternal('https://fotograph.vercel.app');
             },
           },
           {
@@ -268,7 +270,7 @@ export default class MenuBuilder {
           {
             label: 'Community Discussions',
             click() {
-              shell.openExternal('https://www.electronjs.org/community');
+              shell.openExternal('https://fotograph.vercel.app');
             },
           },
           {

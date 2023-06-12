@@ -9,7 +9,19 @@
 .full-height {
   overflow-x: hidden !important;
 }
+::selection {
+  background: transparent;
+  color: inherit;
+}
 
+::-moz-selection {
+  background: transparent;
+  color: inherit;
+}
+
+* {
+  -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
+}
 .text-muted {
   color: #9e9b9b !important;
 }
