@@ -1,6 +1,6 @@
-# FotoGraph
+# Fotograph
 
-<small>Total Hours Spent On FotoGraph</small>
+<small>Total Hours Spent On Fotograph</small>
 
 [![wakatime](https://wakatime.com/badge/user/1cf7c976-595a-4fc7-a7c4-324b43a74aca/project/fdcac2b3-e915-4cfc-9ae0-50c90249bfb3.svg)](https://wakatime.com/badge/user/1cf7c976-595a-4fc7-a7c4-324b43a74aca/project/fdcac2b3-e915-4cfc-9ae0-50c90249bfb3)
 
@@ -10,7 +10,7 @@ An Open Source Cross Platform Desktop Application For Image Manipulation
 
 ### Table Of Content
 
-- [FotoGraph](#fotograph)
+- [Fotograph](#fotograph)
     - [Table Of Content](#table-of-content)
       - [Introduction](#introduction)
       - [Please Note](#please-note)
@@ -20,7 +20,7 @@ An Open Source Cross Platform Desktop Application For Image Manipulation
 
 #### Introduction
 
-FotoGraph is an open source powerful image manipulation software with a variety of tools for image conversion, bulk image downloading, AI-based image generation, background removal, image resizing, and compression.
+Fotograph is an open source powerful image manipulation software with a variety of tools for image conversion, bulk image downloading, AI-based image generation, background removal, image resizing, and compression.
 
 FotoGraph brings most image manipulation tools we use online to a single offline application that works on all operating systems,
 
