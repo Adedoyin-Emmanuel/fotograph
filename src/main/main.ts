@@ -18,7 +18,7 @@ import './misc/registerStorage';
 import './misc/electron-notification';
 import './misc/electron-image-converter';
 import './misc/electron-image-resizer';
-import "./misc/electron-image-size-reducer";
+import './misc/electron-image-size-reducer';
 class AppUpdater {
   constructor() {
     log.transports.file.level = 'info';
@@ -29,12 +29,14 @@ class AppUpdater {
 
 let mainWindow: BrowserWindow | null = null;
 
+/*
+development purposes
 ipcMain.on('ipc-example', async (event, arg) => {
   const msgTemplate = (pingPong: string) => `IPC test: ${pingPong}`;
-  console.log(msgTemplate(arg));
   event.reply('ipc-example', msgTemplate('pong'));
 });
 
+*/
 if (process.env.NODE_ENV === 'production') {
   const sourceMapSupport = require('source-map-support');
   sourceMapSupport.install();

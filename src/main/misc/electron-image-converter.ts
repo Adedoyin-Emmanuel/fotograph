@@ -25,14 +25,12 @@ ipcMain.on(
           status: 500,
           message: error.message || 'an error occured during image conversion',
         });
-        console.log('conversion-failed');
       } else {
         event.sender.send('conversion-successful', {
           status: 200,
           message: `Image files converted successfuly`,
-          filePath: outputPath
+          filePath: outputPath,
         });
-        console.log('conversion-successful');
       }
     });
   }

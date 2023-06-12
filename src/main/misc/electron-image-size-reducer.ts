@@ -12,7 +12,6 @@ ipcMain.on('compress-image', async (event, params) => {
       fileExtension,
       initialFileSize,
     } = params;
-    console.log(params);
 
     let compressionLevel;
 
@@ -87,7 +86,6 @@ ipcMain.on('compress-image', async (event, params) => {
         throw new Error(`Unsupported image format: ${fileExtension}`);
     }
 
-    const compressedImage = compressedImageBuffer.toString('base64');
     const compressedSizeKb = compressedImageBuffer.length / 1024;
 
     const newFileName = `fotograph-compressed-${retriveFileName(

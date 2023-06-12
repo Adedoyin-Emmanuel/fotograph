@@ -49,11 +49,9 @@ ipcMain.on('adjust-brightness', (event, prams: any) => {
     .toBuffer()
     .then((buffer: Buffer) => {
       event.sender.send('image-brightned', buffer);
-      console.log(buffer);
     })
     .catch((error: any) => {
       event.sender.send('brightness-adjust-error', error);
-      console.log(error);
     });
 });
 
