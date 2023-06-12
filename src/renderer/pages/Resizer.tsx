@@ -1,7 +1,6 @@
 import React from 'react';
 import AppLayout from 'renderer/components/layouts/AppLayout';
 import AppHeader from 'renderer/components/common/Header';
-import AppButton from 'renderer/components/common/Button';
 import AppImageResizer from 'renderer/components/common/AppImageResizer';
 
 const Resizer = (): JSX.Element => {

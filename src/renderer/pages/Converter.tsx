@@ -13,11 +13,6 @@ import ConversionContext from 'renderer/context/conversion-context';
 import ConversionProvider from 'renderer/providers/conversion-provider';
 import AppFileCollection from 'renderer/components/common/AppFileCollection';
 import AppConvertToButton from 'renderer/components/common/AppConvertToButton';
-import * as utils from './../includes/scripts/customScript';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faArrowRight } from '@fortawesome/free-solid-svg-icons';
-import db from 'renderer/backend/local-storage/db';
-import Swal from 'sweetalert2';
 
 const Converter = (): JSX.Element => {
   const [fileToConvert, setFileToConvert] = useState<any[]>();

@@ -9,7 +9,6 @@ import {
   fetchImages3,
 } from 'renderer/backend/apis/search-images/search-images';
 import AppBackToTop from 'renderer/components/common/BackToTop';
-import AppCollectionPack from 'renderer/components/common/AppCollectionPack';
 import SearchImagesProvider from 'renderer/providers/search-images-provider';
 import SearchImageContext from 'renderer/context/search-images-context';
 import {

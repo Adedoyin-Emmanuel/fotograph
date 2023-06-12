@@ -2,7 +2,6 @@ import React, {
   FormEvent,
   useRef,
   useState,
-  useContext,
   useEffect,
 } from 'react';
 import AppLayout from 'renderer/components/layouts/AppLayout';

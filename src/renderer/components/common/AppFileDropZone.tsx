@@ -1,7 +1,7 @@
 import React, { useState, DragEvent, useEffect } from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faCloudArrowUp } from '@fortawesome/free-solid-svg-icons';
-import Swal from 'sweetalert2';
+
 
 interface AppFileDropZoneProps {
   handleDragEnter: (e: DragEvent<HTMLDivElement>) => void;
