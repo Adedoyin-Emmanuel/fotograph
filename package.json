@@ -184,7 +184,10 @@
     "productName": "Fotograph",
     "appId": ".app.vercel.fotograph",
     "asar": true,
-    "asarUnpack": "**\\*.{node,dll}",
+    "asarUnpack": [
+      "**\\*.{node,dll}",
+      "**/node_modules/sharp/**"
+    ],
     "files": [
       "dist",
       "node_modules",
@@ -241,7 +244,7 @@
     "publish": {
       "provider": "github",
       "owner": "Adedoyin Emmanuel Adeniyi",
-      "repo": ""
+      "repo": "https://github.com/Adedoyin-Emmanuel/FotoGraph"
     }
   },
   "collective": {
