@@ -142,3 +142,8 @@ app
     });
   })
   .catch(console.log);
+  
+if (process.platform === 'win32')
+{
+    app.setAppUserModelId(app.name);
+}

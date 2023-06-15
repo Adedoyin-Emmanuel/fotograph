@@ -1,16 +1,23 @@
 import { Notification } from 'electron';
+const path = require('path');
 import { ipcMain, dialog, shell } from 'electron';
+
 interface notificationProps {
   title: string;
   text: string;
   type: string;
+
 }
+const appIcon = path.resolve(__dirname, './../../../assets/icon.png');
 
 ipcMain.on('show-notification', (event, message: notificationProps) => {
   const { title, text } = message;
+
   const notification = new Notification({
     title: title,
     body: text,
+    silent: false,
+    icon:appIcon
   });
 
   notification.show();
