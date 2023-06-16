@@ -1,10 +1,12 @@
 # Fotograph
 
-<small>Total Hours Spent On Fotograph</small>
-
 [![wakatime](https://wakatime.com/badge/user/1cf7c976-595a-4fc7-a7c4-324b43a74aca/project/fdcac2b3-e915-4cfc-9ae0-50c90249bfb3.svg)](https://wakatime.com/badge/user/1cf7c976-595a-4fc7-a7c4-324b43a74aca/project/fdcac2b3-e915-4cfc-9ae0-50c90249bfb3)
 
-An Open Source Cross Platform Desktop Application For Image Manipulation
+[![GitHub stars](https://img.shields.io/github/stars/username/repo.svg?style=social)](https://github.com/adedoyin-emmanuel/fotograph/stargazers)
+
+[![GitHub forks](https://img.shields.io/github/forks/username/repo.svg?style=social)](https://github.com/adedoyin-emmanuel/fotograph/network/members)
+
+[![GitHub downloads](https://img.shields.io/github/downloads/username/repo/total.svg)](https://github.com/adedoyin-emmanuel/fotograph/releases)
 
 <p align="center">
   <img src="/assets/logo-text-dark.png" alt="Fotograph Logo" style="max-width: 100%; width: 100%;">
@@ -81,11 +83,10 @@ You can also run the .appimage on your Linux distro,
 
 see
 
-https://github.com/Adedoyin-Emmanuel/Fotograph/releases/
-
+[Fotograph Releases](https://github.com/Adedoyin-Emmanuel/Fotograph/releases/)
 or download straight to your device
 
-https://github.com/Adedoyin-Emmanuel/FotoGraph/releases/tag/v0.1.0-alpha/Fotograph-1.0.0.AppImage
+[Download AppImage](https://github.com/Adedoyin-Emmanuel/FotoGraph/releases/tag/v0.1.0-alpha/Fotograph-1.0.0.AppImage)
 
 ### Technologies
 
@@ -101,7 +102,7 @@ Adedoyin Emmanuel Adeniyi <adedoyine535@gmail.com>
 
 ### Contribution
 
-To contribute to this project, see https://github.com/Adedoyin-Emmanuel/Fotograph/blob/main/CONTRIBUTING.md)
+To contribute to this project, see [CONTRIBUTING.md](https://github.com/Adedoyin-Emmanuel/Fotograph/blob/main/CONTRIBUTING.md)
 
 ### Images
 
