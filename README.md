@@ -10,36 +10,32 @@ An Open Source Cross Platform Desktop Application For Image Manipulation
   <img src="/assets/logo-text-dark.png" alt="Fotograph Logo" style="max-width: 100%; width: 100%;">
 </p>
 
-### Table Of Content
+## Table Of Content
 
 - [Fotograph](#fotograph)
-    - [Table Of Content](#table-of-content)
-      - [Introduction](#introduction)
-      - [Installation](#installation)
-        - [Linux Installation](#linux-installation)
-        - [Windows Installation](#windows-installation)
-        - [Mac Installation](#mac-installation)
-        - [Alternatively](#alternatively)
-      - [Technologies](#technologies)
-      - [Contributors](#contributors)
-      - [Contribution](#contribution)
-      - [Images](#images)
+  - [Table Of Content](#table-of-content)
+    - [Introduction](#introduction)
+    - [Installation](#installation)
+      - [Linux Installation](#linux-installation)
+      - [Windows Installation](#windows-installation)
+      - [Mac Installation](#mac-installation)
+    - [Alternatively](#alternatively)
+    - [Technologies](#technologies)
+    - [Contributors](#contributors)
+    - [Contribution](#contribution)
+    - [Images](#images)
 
-#### Introduction
+### Introduction
 
 Fotograph is an open source powerful image manipulation software with a variety of tools for image conversion, bulk image downloading, AI-based image generation, background removal, image resizing, and compression.
 
----
-
 FotoGraph brings most image manipulation tools we use online to a single offline application that works on all operating systems,
 
----
-
-#### Installation
+### Installation
 
 Fotograph is available for Linux and Windows but not Mac :(
 
-##### Linux Installation
+#### Linux Installation
 
 To install on linux, you can download the .deb file from
 https://fotograph.vercel.app/download or download the files from the release on github
@@ -50,12 +46,12 @@ cd Downloads
 sudo dpkg -i Fotograph_1.0.0_amd64.deb
 ```
 
-##### Windows Installation
+#### Windows Installation
 
 To install on windows,visit https://fotograph.vercel.app/download or download the files from the release on github
 then just run the Fotograph.Setup.1.0.0.exe, it would setup Fotograph and create a shortcut on your desktop
 
-##### Mac Installation
+#### Mac Installation
 
 To install on Mac, you would have to build it yourself, I can't package for mac OS because I don't have one :(
 To do that, simply clone this project
@@ -79,7 +75,7 @@ cd release/build
 
 You should see the setup for your mac OS
 
-##### Alternatively
+### Alternatively
 
 You can also run the .appimage on your Linux distro,
 
@@ -91,7 +87,7 @@ or download straight to your device
 
 https://github.com/Adedoyin-Emmanuel/Fotograph/releases/Fotograph-1.0.0.AppImage
 
-#### Technologies
+### Technologies
 
 - **Electron-React**
 - **TypeScript**
@@ -99,15 +95,15 @@ https://github.com/Adedoyin-Emmanuel/Fotograph/releases/Fotograph-1.0.0.AppImage
 - **NodeJS**
 - **Electron**
 
-#### Contributors
+### Contributors
 
 Adedoyin Emmanuel Adeniyi <adedoyine535@gmail.com>
 
-#### Contribution
+### Contribution
 
 To contribute to this project, see https://github.com/Adedoyin-Emmanuel/Fotograph/blob/main/CONTRIBUTING.md)
 
-#### Images
+### Images
 
 Here is what Fotograph looks like :)
 
