@@ -1,12 +1,11 @@
 # Fotograph
 
-[![wakatime](https://wakatime.com/badge/user/1cf7c976-595a-4fc7-a7c4-324b43a74aca/project/fdcac2b3-e915-4cfc-9ae0-50c90249bfb3.svg)](https://wakatime.com/badge/user/1cf7c976-595a-4fc7-a7c4-324b43a74aca/project/fdcac2b3-e915-4cfc-9ae0-50c90249bfb3)
-
-[![GitHub stars](https://img.shields.io/github/stars/username/repo.svg?style=social)](https://github.com/adedoyin-emmanuel/fotograph/stargazers)
-
-[![GitHub forks](https://img.shields.io/github/forks/username/repo.svg?style=social)](https://github.com/adedoyin-emmanuel/fotograph/network/members)
-
-[![GitHub downloads](https://img.shields.io/github/downloads/username/repo/total.svg)](https://github.com/adedoyin-emmanuel/fotograph/releases)
+<div style="display: flex; justify-content: center;">
+  <a href="https://wakatime.com/badge/user/1cf7c976-595a-4fc7-a7c4-324b43a74aca/project/fdcac2b3-e915-4cfc-9ae0-50c90249bfb3.svg"><img alt="Wakatime" src="https://wakatime.com/badge/user/1cf7c976-595a-4fc7-a7c4-324b43a74aca/project/fdcac2b3-e915-4cfc-9ae0-50c90249bfb3.svg"></a>
+  <a href="https://github.com/adedoyin-emmanuel/fotograph/stargazers"><img alt="GitHub stars" src="https://img.shields.io/github/stars/adedoyin-emmanuel/fotograph.svg?style=social"></a>
+  <a href="https://github.com/adedoyin-emmanuel/fotograph/network/members"><img alt="GitHub forks" src="https://img.shields.io/github/forks/adedoyin-emmanuel/fotograph.svg?style=social"></a>
+  <a href="https://github.com/adedoyin-emmanuel/fotograph/releases"><img alt="GitHub downloads" src="https://img.shields.io/github/downloads/adedoyin-emmanuel/fotograph/total.svg"></a>
+</div>
 
 <p align="center">
   <img src="/assets/logo-text-dark.png" alt="Fotograph Logo" style="max-width: 100%; width: 100%;">
