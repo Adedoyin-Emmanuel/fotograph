@@ -1,0 +1,14 @@
+name: fotograph # you probably want to 'snapcraft register <name>'
+base: core22 # the base snap is the execution environment for this snap
+version: '0.1.0' # just for humans, typically '1.2+git' or '1.3.2'
+summary: An Open Source Cross Platform Desktop Application For Image Manipulation
+description: Fotograph is an open source powerful image manipulation software with a variety of tools for image conversion, bulk image downloading, AI-based image generation, background removal, image resizing, and compression.
+
+
+grade: stable # must be 'stable' to release into candidate/stable channels
+confinement: strict # use 'strict' once you have the right plugs and slots
+
+parts:
+  my-part:
+    plugin: nil
+    source: Fotograph_1.0.0_amd64.deb
