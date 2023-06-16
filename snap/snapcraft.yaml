@@ -6,7 +6,7 @@ description: Fotograph is an open source powerful image manipulation software wi
 
 
 grade: stable # must be 'stable' to release into candidate/stable channels
-confinement: strict # use 'strict' once you have the right plugs and slots
+confinement: devmode # use 'strict' once you have the right plugs and slots
 
 parts:
   my-part:
