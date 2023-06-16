@@ -1,6 +1,6 @@
 # Contributing To Fotograph
 
-+1tada First off, thanks for taking the time to contribute! tada+1
+(: First off, thanks for taking the time to contribute! :)
 
 The following is are guidelines for contributing to Fotograph. These are just guidelines, not rules, use your best judgment and feel free to propose changes to this document in a pull request.
 
