@@ -85,7 +85,7 @@ https://github.com/Adedoyin-Emmanuel/Fotograph/releases/
 
 or download straight to your device
 
-https://github.com/Adedoyin-Emmanuel/Fotograph/releases/Fotograph-1.0.0.AppImage
+https://github.com/Adedoyin-Emmanuel/FotoGraph/releases/tag/v0.1.0-alpha/Fotograph-1.0.0.AppImage
 
 ### Technologies
 
