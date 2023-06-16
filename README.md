@@ -107,7 +107,7 @@ To contribute to this project, see https://github.com/Adedoyin-Emmanuel/Fotograp
 
 #### Images
 
-Here is what the final product would look like :)
+Here is what Fotograph looks like :)
 
 ![Main Application](/assets/screenshots/main-application.png)
 
