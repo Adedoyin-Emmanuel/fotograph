@@ -7,8 +7,9 @@
   <a href="https://github.com/adedoyin-emmanuel/fotograph/releases"><img alt="GitHub downloads" src="https://img.shields.io/github/downloads/adedoyin-emmanuel/fotograph/total.svg"></a>
 </div>
 
+<br/>
 <p align="center">
-  <img src="/assets/logo-text-dark.png" alt="Fotograph Logo" style="max-width: 100%; width: 100%;">
+  <img src="/assets/logo-text-dark.png" alt="Fotograph Logo" style="max-width: 100%; width: 100%; height:40%;">
 </p>
 
 ## Table Of Content
