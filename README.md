@@ -6,11 +6,10 @@
 
 An Open Source Cross Platform Desktop Application For Image Manipulation
 
-![Main Application](/assets/logo-text-dark.png)
-
 <p align="center">
   <img src="/assets/logo-text-dark.png" alt="Fotograph Logo" style="max-width: 100%; width: 100%;">
 </p>
+
 ### Table Of Content
 
 - [Fotograph](#fotograph)
