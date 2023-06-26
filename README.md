@@ -31,7 +31,7 @@
 
 Fotograph is an open source powerful image manipulation software with a variety of tools for image conversion, bulk image downloading, AI-based image generation, background removal, image resizing, and compression.
 
-FotoGraph brings most image manipulation tools we use online to a single offline application that works on all operating systems,
+FotoGraph brings most image manipulation tools we use online to a single offline application that works on all operating systems.
 
 ### Installation
 
