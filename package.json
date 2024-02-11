@@ -105,7 +105,7 @@
     "react-bootstrap": "^2.7.4",
     "react-bootstrap-icons": "^1.10.3",
     "react-dom": "^18.2.0",
-    "react-image-crop": "^10.1.4",
+    "react-image-crop": "^10.1.8",
     "react-router-dom": "^6.8.1",
     "sweetalert2": "^11.7.3"
   },
