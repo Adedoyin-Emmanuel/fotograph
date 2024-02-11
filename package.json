@@ -107,7 +107,7 @@
     "react-dom": "^18.2.0",
     "react-image-crop": "^10.1.4",
     "react-router-dom": "^6.8.1",
-    "sweetalert2": "^11.7.3"
+    "sweetalert2": "^11.10.3"
   },
   "devDependencies": {
     "@electron/notarize": "^1.2.3",
