@@ -101,10 +101,10 @@
     "file-saver": "^2.0.5",
     "jquery": "^3.7.1",
     "jszip": "^3.10.1",
-    "react": "^18.2.0",
+    "react": "^18.3.1",
     "react-bootstrap": "^2.10.0",
     "react-bootstrap-icons": "^1.11.3",
-    "react-dom": "^18.2.0",
+    "react-dom": "^18.3.1",
     "react-image-crop": "^10.1.4",
     "react-router-dom": "^6.22.3",
     "sweetalert2": "^11.7.3"
