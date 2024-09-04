@@ -97,7 +97,7 @@
     "electron-dl": "^3.5.2",
     "electron-log": "^4.4.8",
     "electron-store": "^8.2.0",
-    "electron-updater": "^6.2.1",
+    "electron-updater": "^6.3.0",
     "file-saver": "^2.0.5",
     "jquery": "^3.7.1",
     "jszip": "^3.10.1",
